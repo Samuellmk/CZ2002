@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class CustIOMGR {
 	/*
-	 * Method to read persistent data from file for customers
+	 * Method to read persistent data from file for customers test
 	 */
 	public static ArrayList<Customer> readFromFile() {
 		ArrayList<Customer> customers = new ArrayList<>();
