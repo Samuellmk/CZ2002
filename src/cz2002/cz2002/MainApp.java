@@ -25,13 +25,13 @@ public class MainApp {
 		Scanner sc=new Scanner(System.in);
 		int choice = -1;
 		do {
-		System.out.println("-----------------------");
+		System.out.println("----------------------");
 		System.out.println("1. Food Menu UI");
 		System.out.println("2. Reservation UI");
 		System.out.println("3. Order UI");
 		System.out.println("4. Save to file");
 		System.out.println("To exit enter -1");
-		System.out.println("-----------------------");
+		System.out.println("----------------------");
 		System.out.print("Please selection an option: ");
 		choice = sc.nextInt();
 		
