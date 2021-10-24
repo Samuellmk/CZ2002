@@ -76,36 +76,54 @@ public class ReservationUI {
 		while(tableNo == -1) {
 			boolean validDate = false;
 			while(!validDate) {
-				System.out.print("Enter the date (dd/MM/yyyy): ");
+				System.out.print("\nEnter the date (dd/MM/yyyy) or -1 to exit: ");
 				date = sc.next();
+				if(date.equals("-1")) {
+					System.out.println("Exiting...");
+					return;
+				}
 				validDate = ReservationMGR.checkValidDate(date);
 			}
 			
 			boolean validTime = false;
 			while(!validTime) {
-				System.out.print("Enter the Time (HH:mm): ");
+				System.out.print("\nEnter the Time (HH:mm) or -1 to exit: ");
 				time = sc.next();
+				if(time.equals("-1")) {
+					System.out.println("Exiting...");
+					return;
+				}
 				validTime = ReservationMGR.checkValidTime(time);
 			}
 			dateTime = date + " " + time;
 			
-			System.out.println("Enter number of pax");
-			System.out.println("1)TWO 2)FOUR 3)SIX 4)EIGHT 5) TEN");
+			System.out.println("\nEnter number of pax or -1 to exit");
+			System.out.println("1)TWO 2)FOUR 3)SIX 4)EIGHT 5)TEN");
 			int choice = sc.nextInt();
+			if(choice == -1) {
+				System.out.println("Exiting...");
+				return;
+			}
 			while(choice < 1 || choice > 5) {
 				System.out.println("Invalid pax entry...");
 				choice = sc.nextInt();
 			}
 			for(int i=0; i<TableSeats.values().length;i++) {
-				if(choice == i+1)
+				if(choice == i+1) {
 					pax = TableSeats.values()[i];
+					break;
+				}
 			}
 		
 			tableNo = ReservationMGR.checkReservation(pax, dateTime, reservation, table);
 		}
 		
-		System.out.print("Enter customer name: ");
+		System.out.print("\nEnter customer name or -1 to exit: ");
 		String name = sc.next();
+		if(name.equals("-1")) {
+			System.out.println("Exiting...");
+			return;
+		}
 		while(name.matches(".*\\d.*")) {
 			System.out.println("Invalid name entry...");
 			System.out.print("Enter customer name: ");
@@ -115,9 +133,13 @@ public class ReservationUI {
 		String contact = "";
 		boolean validPhone= false;
 		while(!validPhone) {
-			System.out.print("Enter customer contact: ");
+			System.out.print("\nEnter customer contact or -1 to exit: ");
 			contact = sc.next();
-			validPhone= ReservationMGR.checkValidPhone(contact);
+			if(contact.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
+			validPhone = ReservationMGR.checkValidPhone(contact);
 			for(Reservation items: reservation) {
 				if(items.getCustomer().getContact().contains(contact)) {
 					System.out.println("Booking for this phone number exists - Try again");
@@ -126,8 +148,13 @@ public class ReservationUI {
 			}
 		}
 		
-		System.out.print("Is customer member (Y/N): ");
-		char membershipCheck = Character.toLowerCase(sc.next().charAt(0));
+		System.out.print("\nIs customer member (Y/N), enter -1 to exit: ");
+		String choice = sc.next();
+		if(choice.equals("-1")) {
+			System.out.println("Exiting...");
+			return;
+		}
+		char membershipCheck = Character.toLowerCase(choice.charAt(0));
 		while((membershipCheck != 'y' || membershipCheck == 'n') && 
 			  (membershipCheck == 'y' || membershipCheck != 'n')) {
 			System.out.println("Invalid entry...");

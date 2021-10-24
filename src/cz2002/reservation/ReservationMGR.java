@@ -52,7 +52,7 @@ public class ReservationMGR {
 	 * checkReservation ensures reservations made are blocked out for the 
 	 * next 45 mins, giving customers ample time to dine. 
 	 * However, customers are allow to book on another day or time if
-	 * available.
+	 * no slot on given date and time.
 	 * 
 	 * @param pax				the pax of the reservation
 	 * @param dateTime			the date & time of the reservation
@@ -64,13 +64,14 @@ public class ReservationMGR {
 	public static int checkReservation(TableSeats pax, String dateTime, List<Reservation> reservationItems, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime inputDateTime = LocalDateTime.parse(dateTime, formatter);
-		//String inputDateTimeEnd = inputDateTime.plusMinutes(45).format(formatter);
 		
 		ArrayList<Integer> tableNoTaken = new ArrayList<Integer>();
 		for(Reservation item: reservationItems) {
 			LocalDateTime bookedTimeDate = LocalDateTime.parse(item.getDateTime(), formatter);
-			if(bookedTimeDate.plusMinutes(45).isAfter(inputDateTime)) {
+			if(inputDateTime.plusMinutes(1).isAfter(bookedTimeDate) && 
+			   bookedTimeDate.plusMinutes(45).isAfter(inputDateTime)) {
 				tableNoTaken.add(item.getTableNo());
+				System.out.println(item.getTableNo());
 			}
 		}
 		int tableNo = TableMGR.checkTableAvail(pax, tables, tableNoTaken);
@@ -166,8 +167,7 @@ public class ReservationMGR {
 	 */
 	public static boolean checkValidPhone(String contact) {
 		while(contact.length() != 8 ||
-				(contact.charAt(0) != 8 && contact.charAt(0) == 9) ||
-				(contact.charAt(0) == 8 && contact.charAt(0) != 9)) {
+				(contact.charAt(0) < '8' || contact.charAt(0) > '9')) {
 				System.out.println("Invalid phone number - Try Again");
 				System.out.print("Enter phone number: ");
 				return false;
