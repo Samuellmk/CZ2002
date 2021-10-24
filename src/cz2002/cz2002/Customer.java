@@ -1,5 +1,10 @@
 package cz2002;
 
+/**
+ * The customer Class that will be used in Reservation ArrayList.
+ * 
+ * @author Samuel Leong
+ */
 public class Customer {
 
 	private boolean membership;
@@ -7,7 +12,11 @@ public class Customer {
 	private String contact;
 	
 	/** 
-	* Class constructor.
+	* Class constructor specifying the creation of customer object.
+	* 
+	* @param membership if customer has membership
+	* @param name		the name of the customer
+	* @param contact	the contact number of the customer
 	*/
 	public Customer(boolean membership, String name, String contact) {
 		this.membership = membership;
@@ -15,46 +24,55 @@ public class Customer {
 		this.contact = contact;
 	}
 	
-	/*
-	 *Getter method 
+	/**
+	 * Return the name of the customer.
+	 * 
+	 * @return the name of the specified customer
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 *  Setter method
-	 * @param name
+	 * Setting the name to this customer Customer object.
+	 *  
+	 * @param name the name to be set to this Customer object
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	/*
-	 *Getter method 
+	/**
+	 * Return the contact number of the customer.
+	 * 
+	 * @return the contact number of the specified customer
 	 */
 	public String getContact() {
 		return this.contact;
 	}
 
 	/**
-	 *  Setter method
-	 * @param contact
+	 * Setting the contact to this customer Customer object.
+	 *  
+	 * @param contact the contact to be set to this Customer object
 	 */
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
 	
-	/*
-	 *Getter method 
+	/**
+	 * Return the membership boolean of the customer.
+	 * 
+	 * @return the membership boolean of the specified customer
 	 */
 	public boolean getMembership() {
 		return this.membership;
 	}
 
 	/**
-	 *  Setter method
-	 * @param membership
+	 * Setting the membership to this customer Customer object.
+	 *  
+	 * @param membership the membership to be set to this Customer object
 	 */
 	public void setMembership(boolean membership) {
 		this.membership = membership;

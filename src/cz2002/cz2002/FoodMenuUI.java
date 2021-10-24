@@ -18,7 +18,7 @@ public class FoodMenuUI {
 		int choice = -1;
 		do {
 			displayUI();
-			System.out.print("Pick a task: ");
+			System.out.print("Choose an option: ");
 			choice = sc.nextInt();
 			switch(choice) {
 			case 1:
@@ -77,7 +77,9 @@ public class FoodMenuUI {
 	}
 	
 	public void displayUI() {
-		System.out.println("");
+		System.out.println("\n----------------------");
+		System.out.println("Food Menu");	
+		System.out.println("----------------------");
 		System.out.println("1. View Menu Items");
 		System.out.println("2. Create Food Item");
 		System.out.println("3. Create Promo Package");
@@ -85,7 +87,8 @@ public class FoodMenuUI {
 		System.out.println("5. Update Promo Package");
 		System.out.println("6. Remove Food Item");
 		System.out.println("7. Remove Promo Package");
-		System.out.println("To exit enter -1");
+		System.out.println("----------------------");
+		System.out.println("Enter -1, to return to Main Menu");
 		
 	}
 	
@@ -102,7 +105,6 @@ public class FoodMenuUI {
 	/** 
 	* Method to view Food Items
 	* @param foodItems the Promo Items from Main Applications
-	* 
 	*/
 	public void viewFoodItemsUI(ArrayList<Food> foodItems) {
 		System.out.println("");

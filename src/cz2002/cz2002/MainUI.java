@@ -2,6 +2,8 @@ package cz2002;
 
 import java.util.Scanner;
 
+import reservation.ReservationUI;
+
 public class MainUI {
 
 	public Scanner sc;
