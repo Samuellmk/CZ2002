@@ -4,7 +4,7 @@ package cz2002;
  * Super class of Food and PromoPackage
  */
 
-public class MenuItem {
+public abstract class MenuItem {
 
 	private String name;
 	
@@ -29,5 +29,8 @@ public class MenuItem {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	public abstract double getPrice();
+	
+	
 }

@@ -97,7 +97,7 @@ public class FoodMenuUI {
 	* @param foodItems the Food Items from Main Application
 	* @param promoItems the Promo Items from Main Applications
 	*/
-	public void viewMenuItemsUI(ArrayList<Food> foodItems,ArrayList<PromoPackage> promoItems) {
+	public static void viewMenuItemsUI(ArrayList<Food> foodItems,ArrayList<PromoPackage> promoItems) {
 		viewFoodItemsUI(foodItems);
 		viewPromoItemsUI(promoItems);
 	}
@@ -106,7 +106,7 @@ public class FoodMenuUI {
 	* Method to view Food Items
 	* @param foodItems the Promo Items from Main Applications
 	*/
-	public void viewFoodItemsUI(ArrayList<Food> foodItems) {
+	public static void viewFoodItemsUI(ArrayList<Food> foodItems) {
 		System.out.println("");
 		System.out.println("Food Items: ");
 		for (int i =0 ;i<foodItems.size();i++) {
@@ -122,7 +122,7 @@ public class FoodMenuUI {
 	* Method to view Promo Items 
 	* @param promoItems the Promo Items from Main Applications
 	*/
-	public void viewPromoItemsUI(ArrayList<PromoPackage> promoItems) {
+	public static void viewPromoItemsUI(ArrayList<PromoPackage> promoItems) {
 		System.out.println("");
 		System.out.println("Promo Items: ");
 		for (int i =0 ;i<promoItems.size();i++) {

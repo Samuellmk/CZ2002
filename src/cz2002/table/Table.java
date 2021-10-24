@@ -75,6 +75,5 @@ public class Table {
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
-	
 
 }
