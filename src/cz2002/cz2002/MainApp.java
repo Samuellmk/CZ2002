@@ -10,7 +10,7 @@ import reservation.ReservationUI;
 import table.Table;
 import table.TableIOMGR;
 
-/*
+/**
  * This is the Main application class program will start from here
  * Staff will use this menu to handle restaurant functions
  * 
