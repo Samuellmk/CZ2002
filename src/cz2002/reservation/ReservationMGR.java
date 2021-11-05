@@ -206,6 +206,7 @@ public class ReservationMGR {
 			long minutes = tempDateTime.until( itemDateTime, ChronoUnit.MINUTES );
 			tempDateTime = tempDateTime.plusMinutes( minutes );
 			
+		
 			long diffMins = ChronoUnit.MINUTES.between(dateTimeNow, itemDateTime) + EXPIRY_MINS;
 			System.out.println("Reservation for "+item.getCustomer().getName()+
 					" ("+item.getCustomer().getContact()+") is expiring in "+
