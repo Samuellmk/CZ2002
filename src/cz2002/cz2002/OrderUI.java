@@ -1,9 +1,12 @@
 package cz2002;
 
 import java.util.ArrayList;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-
+import reservation.Reservation;
 import table.Table;
 
 public class OrderUI {
@@ -11,7 +14,7 @@ public class OrderUI {
 
 	public Scanner sc = new Scanner(System.in);
 
-	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, ArrayList<Order> orderList, ArrayList<Staff> staff, List<Table> tableList, ArrayList<MenuItem> orderItems)
+	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations)
 	{
 		for(int b=0; b<staff.size(); b++)
 		{
@@ -33,11 +36,11 @@ public class OrderUI {
 				showOrderDetails(orderList);
 				break;				
 			case 2:
-				takeOrder(orderstaff, tableList, orderList, foodItems, promoItems,orderItems);
+				takeOrder(orderstaff, orderList, foodItems, promoItems,reservations);
 				break; 
 				
 			case 3:
-				editOrder(orderstaff, foodItems, promoItems,orderItems, orderList, tableList);
+				editOrder(orderstaff, foodItems, promoItems,orderList);
 				break;
 				
 			default:
@@ -58,7 +61,7 @@ public class OrderUI {
 	}
 	
 
-	public void showOrderDetails(ArrayList<Order> orderList) 
+	public void showOrderDetails(List<Order> orderList) 
 	{
 		int tableno;
 		System.out.println("Which table order would you like to SHOW?");
@@ -73,25 +76,18 @@ public class OrderUI {
 			}		
 			
 		}
+		if(i>=orderList.size()) 
+		{
+			System.out.println("No existing order to show!");
+		}
 	}
 	
-    public void takeOrder(Staff orderstaff, List<Table> tableList, ArrayList<Order> orderList, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems,ArrayList<MenuItem> orderItems)
+    public void takeOrder(Staff orderstaff,List<Order> orderList, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems,List<Reservation> reservations)
     {
-        int i;
-        System.out.println("Which TABLE NUMBER are you editing for?");
+        int i; 
+        Customer customer = null;
+        System.out.println("Which TABLE NUMBER are you taking order for?");
         int tableno = sc.nextInt();
-        for(i=0; i<orderItems.size(); i++)
-        {
-            if(orderList.get(i).getTableno() == tableno)
-            {
-                if(tableList.get(i).isOccupied() == false)
-                {
-                    System.out.println("Table not reserved please try taking orders for other tables instead!");
-                    return;
-                }
-            }
-        }
-
         
         for(i=0; i<orderList.size(); i++)
         {
@@ -102,10 +98,35 @@ public class OrderUI {
                 return;
             }
         }
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        
+        for(i=0; i<reservations.size(); i++)
+        {
+            if(reservations.get(i).getTableNo() == tableno)
+            {
+            	LocalDateTime rsvtimeStart = LocalDateTime.parse(reservations.get(i).getDateTime(), formatter);
+                LocalDateTime dateTimeNow = LocalDateTime.now();           
+            	Duration duration = Duration.between(rsvtimeStart,dateTimeNow);
+          
+            	if(duration.toMinutes() <= 15 && duration.toMinutes()>=0)
+            	{
+            		customer = reservations.get(i).getCustomer();
+            		break;
+            	}
+            }
+        } 
+        
+        if(i>=reservations.size())
+        {
+        	System.out.println("No reservation for this table! Please try taking order for other tables instead!");
+        	return;
+        }       
 
         FoodMenuUI.viewMenuItemsUI(foodItems,promoItems); //Print menus for user to choose items
         
         int oChoice;
+        OrderMGR.createOrder(orderstaff, tableno, false, orderList, customer);
         do
         {
             System.out.println("Pick a task: ");
@@ -117,10 +138,10 @@ public class OrderUI {
             switch(oChoice)
             {
                 case 1:
-                    newF(orderstaff,foodItems,orderItems, orderList, tableno);
+                    addF(orderstaff,foodItems,orderList, tableno);
                     break;				
                 case 2:
-                    newP(orderstaff, promoItems,orderItems, orderList, tableno);
+                    addP(orderstaff, promoItems,orderList, tableno);
                     break; 
 
                 default:
@@ -130,73 +151,23 @@ public class OrderUI {
         }while(oChoice != -1);
     }
 
-
-    public void newF(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno)
-    {
-        System.out.println("Enter Food Item NO. please...");
-        int fIndex = sc.nextInt();
-        if(fIndex>foodItems.size() || fIndex<0)
-        {
-        	System.out.println("Please enter a valid Food Item NO.!");
-        	return;
-        }
-        System.out.println("Enter quantity please...");
-        int q = sc.nextInt();
-        if(q<1) 
-        {
-        	System.out.println("Pleae enter a valid quantity!");
-            return;
-        }
-                            
-        for(int i=0;i<q;i++)
-        {
-        	orderItems.add(foodItems.get(fIndex-1));
-        }
-                
-        OrderMGR.createOrder(orderstaff, orderItems, tableno, false, orderList);
-         
-    }
-
-    public void newP(Staff orderstaff,ArrayList<PromoPackage> promoItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno)
-    {
-    	System.out.println("Enter Promotional Item NO. please...");
-    	int pIndex = sc.nextInt();
-    	 if(pIndex>promoItems.size() || pIndex<0)
-         {
-         	System.out.println("Please enter a valid Food Item NO.!");
-         	return;
-         }
-         System.out.println("Enter quantity please...");
-         int q = sc.nextInt();
-         if(q<1) 
-         {
-         	System.out.println("Pleae enter a valid quantity!");
-             return;
-         }
-                             
-         for(int i=0;i<q;i++)
-         {
-         	orderItems.add(promoItems.get(pIndex-1));
-         }
-                 
-         OrderMGR.createOrder(orderstaff, orderItems, tableno, false, orderList);
-    }
-
-    public void editOrder(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, List<Table> tableList)
+    public void editOrder(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList)
     {
         int i;
         System.out.println("Which TABLE NUMBER are you editing for?");
         int tableno = sc.nextInt();
-        for(i=0; i<tableList.size(); i++)
+        for(i=0; i<orderList.size(); i++)
         {
-            if(tableList.get(i).getTableNo() == tableno)
+            if(orderList.get(i).getTableno() == tableno)
             {
-                if(tableList.get(i).isOccupied() == false)
-                {
-                    System.out.println("Table not reserved please try taking orders for other tables instead!");
-                    return;
-                }
+                break;
             }
+        }
+        
+        if(i>=orderList.size())
+        {
+        	System.out.println("No existing orders for this table yet! Please take new order first!");
+        	return;
         }
 
         OrderMGR.printOrder(tableno,orderList);
@@ -210,10 +181,10 @@ public class OrderUI {
             switch(eChoice)
             {
                 case 1:
-                    addOrderItemUI(orderstaff, foodItems, promoItems, orderItems, orderList, tableno);
+                    addOrderItemUI(orderstaff, foodItems, promoItems,orderList, tableno);
                     break;				
                 case 2:
-                    removeOrderItemUI(orderItems, orderList, tableno);
+                    removeOrderItemUI(orderList, tableno);
                     break; 
                     
                 case 3:
@@ -239,7 +210,7 @@ public class OrderUI {
     }
 
 
-    public void addOrderItemUI(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno)
+    public void addOrderItemUI(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, int tableno)
     {
         FoodMenuUI.viewMenuItemsUI(foodItems,promoItems); //Print menus for user to choose items
         int addChoice;
@@ -254,10 +225,10 @@ public class OrderUI {
             switch(addChoice)
             {
                 case 1:
-                    addF(orderstaff,foodItems,orderItems, orderList,tableno);
+                    addF(orderstaff,foodItems,orderList,tableno);
                     break;				
                 case 2:
-                    addP(orderstaff,promoItems,orderItems,orderList,tableno);
+                    addP(orderstaff,promoItems,orderList,tableno);
                     break; 
 
                 default:
@@ -269,33 +240,35 @@ public class OrderUI {
     }
 
 
-    public void addF(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno) 
+    public void addF(Staff orderstaff, ArrayList<Food> foodItems, List<Order> orderList, int tableno) 
     {
-    	 System.out.println("Enter Food Item NO. please...");
-         int fIndex = sc.nextInt();
-         if(fIndex>foodItems.size() || fIndex<0)
-         {
-         	System.out.println("Please enter a valid Food Item NO.!");
-         	return;
-         }
-         System.out.println("Enter quantity please...");
-         int q = sc.nextInt();
-         if(q<1) 
-         {
-         	System.out.println("Pleae enter a valid quantity!");
-             return;
-         }
+    	List<MenuItem> orderItems = new ArrayList<MenuItem>();
+    	System.out.println("Enter Food Item NO. please...");
+        int fIndex = sc.nextInt();
+        if(fIndex>foodItems.size() || fIndex<0)
+        {
+        	System.out.println("Please enter a valid Food Item NO.!");
+        	return;
+        }
+        System.out.println("Enter quantity please...");
+        int q = sc.nextInt();
+        if(q<1) 
+        {
+        	System.out.println("Pleae enter a valid quantity!");
+            return;
+        }
                              
-         for(int i=0;i<q;i++)
-         {
-         	orderItems.add(foodItems.get(fIndex-1));
-         }
-                 
-         OrderMGR.addOrderItem(orderstaff, orderItems, tableno, orderList);
+        for(int i=0;i<q;i++)
+        {
+        	orderItems.add(foodItems.get(fIndex-1));
+        }
+                
+        OrderMGR.addOrderItem(orderstaff, orderItems, tableno, orderList);
     }
 
-    public void addP(Staff orderstaff,ArrayList<PromoPackage> promoItems, ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno) 
+    public void addP(Staff orderstaff,ArrayList<PromoPackage> promoItems, List<Order> orderList, int tableno) 
     {
+    	List<MenuItem> orderItems = new ArrayList<MenuItem>();
     	System.out.println("Enter Promotional Item NO. please...");
     	int pIndex = sc.nextInt();
     	if(pIndex>promoItems.size() || pIndex<0)
@@ -320,7 +293,7 @@ public class OrderUI {
     }
 
 
-    public void removeOrderItemUI(ArrayList<MenuItem> orderItems, ArrayList<Order> orderList, int tableno)
+    public void removeOrderItemUI(List<Order> orderList, int tableno)
     {
         OrderMGR.printOrder(tableno, orderList);
     	System.out.println("which item INDEX of the order do you want to DELETE?");
@@ -340,12 +313,14 @@ public class OrderUI {
         	return;
         }
                                 
-        OrderMGR.removeOrderItem(oIndex, itemIndex, orderList, orderItems);
+        OrderMGR.removeOrderItem(oIndex, itemIndex, orderList);
     }
 
-    public void cancelOrderUI(ArrayList<Order> orderList, int tableno)
+    public void cancelOrderUI(List<Order> orderList, int tableno)
     {
-        OrderMGR.cancelOrder(orderList,tableno);
+        System.out.println("no of orders: " + orderList.size());
+    	OrderMGR.cancelOrder(orderList,tableno);
+
     }
 	
 }	

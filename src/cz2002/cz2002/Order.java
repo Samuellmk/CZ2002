@@ -1,24 +1,27 @@
 package cz2002;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
 
 	private Staff staff;
-	private ArrayList<MenuItem> orderItems;
+	private List<MenuItem> orderItems;
 	private int tableno;
 	private boolean paid;
+	private Customer customer;
 	
 	
 	/** 
 	* Class constructor.
 	*/
-	public Order(Staff staff, ArrayList<MenuItem> orderItems, int tableno, boolean paid) 
+	public Order(Staff staff, List<MenuItem> orderItems, int tableno, boolean paid, Customer customer) 
 	{
 		this.staff = staff;
 		this.orderItems = orderItems;
 		this.tableno = tableno;
 		this.paid = paid;		
+		this.customer = customer;
 	}
 	
 	
@@ -36,7 +39,7 @@ public class Order {
 
 	public ArrayList<MenuItem> getOrderItems()
 	{
-		return this.orderItems;
+		return (ArrayList<MenuItem>) this.orderItems;
 	}
 
 	/**
@@ -70,6 +73,16 @@ public class Order {
 	 */
 	public void setPaid(boolean paid) {
 		this.paid = true;
+	}
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 }

@@ -1,5 +1,6 @@
 package cz2002;
 import java.util.ArrayList;
+import java.util.List;
 public class OrderMGR {
 	
 	
@@ -7,7 +8,7 @@ public class OrderMGR {
 	 * 
 	 * @param order
 	 */
-	public static void printOrder(int tableno, ArrayList<Order> orderList)
+	public static void printOrder(int tableno, List<Order> orderList)
 	{
 		int i;
 		for(i=0; i<orderList.size(); i++)
@@ -15,7 +16,7 @@ public class OrderMGR {
 			if(orderList.get(i).getTableno() == tableno)
 			{
 				System.out.println("Table No: " + tableno);
-				System.out.println("Order Taken By: " + orderList.get(i).getStaff());
+				System.out.println("Order Taken By: " + orderList.get(i).getStaff().getName());
 				ArrayList<MenuItem> orders = orderList.get(i).getOrderItems();
 				int orderItemNo = 1;
 				for(int j = 0; j < orders.size(); j++)
@@ -35,19 +36,10 @@ public class OrderMGR {
 	 * @param tableno that made this order
 	 * @param paid true or false
 	 */
-	public static void createOrder(Staff staff, ArrayList<MenuItem> orderItems, int tableno, boolean paid, ArrayList<Order> orderList)
+	public static void createOrder(Staff staff, int tableno, boolean paid, List<Order> orderList, Customer customer)
 	{
-		int i;
-		for(i=0; i<orderList.size(); i++)
-		{
-			if(orderList.get(i).getTableno() == tableno)
-			{
-				addOrderItem(staff, orderItems, tableno, orderList); //means got existing order already, use addorderItem instead
-				break;
-			}
-		}
-		
-		Order newOrder = new Order(staff, orderItems, tableno, paid);
+		ArrayList<MenuItem> orderItems = new ArrayList<MenuItem>(); 
+		Order newOrder = new Order(staff, orderItems, tableno, paid, customer);
 		orderList.add(newOrder);		
 	}
 
@@ -72,7 +64,7 @@ public class OrderMGR {
 	 * 
 	 * @param order
 	 */
-	public static void addOrderItem(Staff staff, ArrayList<MenuItem> orderItems, int tableno, ArrayList<Order> orderList)
+	public static void addOrderItem(Staff staff, List<MenuItem> orderItems, int tableno, List<Order> orderList)
 	{
 		int i;
 		for(i=0; i<orderList.size(); i++)
@@ -97,7 +89,7 @@ public class OrderMGR {
 	 * @param order
 	 * @param index
 	 */
-	public static void removeOrderItem(int ordersIndex, int itemIndex, ArrayList<Order> orderList, ArrayList<MenuItem> orderItems)
+	public static void removeOrderItem(int ordersIndex, int itemIndex, List<Order> orderList)
 	{
 		ArrayList<MenuItem> tempOrder = orderList.get(ordersIndex).getOrderItems(); 
 		tempOrder.remove(itemIndex-1);
@@ -106,7 +98,7 @@ public class OrderMGR {
 		
 	}
 	
-	public static void cancelOrder(ArrayList<Order> orderList, int tableno)
+	public static void cancelOrder(List<Order> orderList, int tableno)
 	{
 		int orderIndex;
 		for(orderIndex=0; orderIndex<orderList.size(); orderIndex++)

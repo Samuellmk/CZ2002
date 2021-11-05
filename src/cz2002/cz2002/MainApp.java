@@ -25,7 +25,6 @@ public class MainApp {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		ArrayList<Table> tables = new ArrayList<Table>();
-		ArrayList<MenuItem> orderItems = new ArrayList<MenuItem>();
 		ArrayList<Order> orderList = new ArrayList<Order>();
 		
 		foodItems = FoodIOMGR.readFromFile();
@@ -61,7 +60,7 @@ public class MainApp {
 				ReservationUI reservationUI = new ReservationUI(reservations, customers, tables);
 				break;
 			case 3:
-				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,tables,orderItems);
+				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations);
 				break;
 			case 4:
 				FoodIOMGR.writeToFile(foodItems);
