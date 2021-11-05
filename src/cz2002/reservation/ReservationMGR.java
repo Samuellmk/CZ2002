@@ -3,6 +3,7 @@ package reservation;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
@@ -188,6 +189,7 @@ public class ReservationMGR {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime itemDateTime;
     	LocalDateTime dateTimeNow = LocalDateTime.now(); 
+		ArrayList<String> deletionArrayList = new ArrayList<>();
     	
 		System.out.println("--------------------------------------------");
 		System.out.println("Reservations List");
@@ -212,19 +214,35 @@ public class ReservationMGR {
 					" ("+item.getCustomer().getContact()+") is expiring in "+
 					days+" days "+hours+" hours "+minutes+" mins ("+diffMins+" mins)");
 			
-			final Runnable dateTime = new Runnable() { 
-				/**
-				 * This will remove reservation once the time is up.
-				 */
-				public void run() {
-	    	        // Write code here that you want to execute periodically.
-					removeReservation(item.getCustomer().getContact(), reservationItems);
-					ArrayList<Reservation> tempArrayList = new ArrayList<Reservation>(reservationItems);
-					ReservationIOMGR.writeToFile(tempArrayList);
-	    	    }
-			};
-		
-			scheduler.schedule(dateTime, diffMins, TimeUnit.MINUTES);
+			if(diffMins < 0) {
+				// Saving reservation contact number to a list for deletion later
+				deletionArrayList.add(item.getCustomer().getContact());
+			} else {
+				final Runnable dateTime = new Runnable() { 
+					/**
+					 * This will remove reservation once the time is up.
+					 */
+					@Override
+					public void run() {
+		    	        // Write code here that you want to execute periodically.
+						removeReservation(item.getCustomer().getContact(), reservationItems);
+						ArrayList<Reservation> tempArrayList = new ArrayList<Reservation>(reservationItems);
+						ReservationIOMGR.writeToFile(tempArrayList);
+							
+		    	    }
+				};
+			
+				scheduler.schedule(dateTime, diffMins, TimeUnit.MINUTES);
+			}
+		}
+		// Delete all the reservation that expired long time ago
+		if(deletionArrayList.size() > 0) {
+			System.out.println("--------------------------------------------");
+			for(String item : deletionArrayList) {
+				removeReservation(item, reservationItems);
+				ArrayList<Reservation> tempArrayList = new ArrayList<Reservation>(reservationItems);
+				ReservationIOMGR.writeToFile(tempArrayList);				
+			}
 		}
 		System.out.println("--------------------------------------------");
 	}
