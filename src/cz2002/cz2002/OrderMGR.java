@@ -22,7 +22,8 @@ public class OrderMGR {
 				for(int j = 0; j < orders.size(); j++)
 				{
 					System.out.printf("%-15S", (orderItemNo++) + ")" + orders.get(j).getName());
-					System.out.printf("%.2f%n", " "+(orders.get(j).getPrice()));
+					System.out.print(" ");
+					System.out.printf("%.2f%n", (orders.get(j).getPrice()));
 				}
 				break;
 			}
