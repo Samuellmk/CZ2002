@@ -49,6 +49,7 @@ public class MainApp {
 		
 		// Setting up Reservation Expiring Scheduler
 		ReservationMGR.checkExpiry(reservations);
+		ReservationMGR.checkAfter45Mins(reservations, orderList, invoices, tables);
 		
 		Scanner sc=new Scanner(System.in);
 		int choice = -1;

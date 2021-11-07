@@ -13,6 +13,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import cz2002.Customer;
+import cz2002.Order;
+import cz2002.OrderMGR;
+import invoice.Invoice;
+import invoice.InvoiceMGR;
 import table.Table;
 import table.TableMGR;
 import table.TableSeats;
@@ -214,11 +218,11 @@ public class ReservationMGR {
 					" ("+item.getCustomer().getContact()+") is expiring in "+
 					days+" days "+hours+" hours "+minutes+" mins ("+diffMins+" mins)");
 			
-			if(diffMins < 0) {
+			if(diffMins < -15) {
 				// Saving reservation contact number to a list for deletion later
 				deletionArrayList.add(item.getCustomer().getContact());
 			} else {
-				final Runnable dateTime = new Runnable() { 
+				final Runnable runnable = new Runnable() { 
 					/**
 					 * This will remove reservation once the time is up.
 					 */
@@ -232,19 +236,66 @@ public class ReservationMGR {
 		    	    }
 				};
 			
-				scheduler.schedule(dateTime, diffMins, TimeUnit.MINUTES);
+				scheduler.schedule(runnable, diffMins, TimeUnit.MINUTES);
 			}
 		}
 		// Delete all the reservation that expired long time ago
 		if(deletionArrayList.size() > 0) {
 			System.out.println("--------------------------------------------");
+			ArrayList<Reservation> tempArrayList = null;
 			for(String item : deletionArrayList) {
 				removeReservation(item, reservationItems);
-				ArrayList<Reservation> tempArrayList = new ArrayList<Reservation>(reservationItems);
-				ReservationIOMGR.writeToFile(tempArrayList);				
+				tempArrayList = new ArrayList<Reservation>(reservationItems);				
 			}
+			ReservationIOMGR.writeToFile(tempArrayList);
 		}
 		System.out.println("--------------------------------------------");
 	}
+	
+	public static void checkAfter45Mins(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime itemDateTime;
+    	LocalDateTime dateTimeNow = LocalDateTime.now(); 
+		ArrayList<String> deletionArrayList = new ArrayList<>();
 		
+		//
+		// Table No has Order
+		
+		for(Reservation item : reservationItems) {
+			itemDateTime = LocalDateTime.parse(item.getDateTime(), formatter);
+			
+			LocalDateTime tempDateTime = LocalDateTime.from( dateTimeNow );
+			long days = tempDateTime.until( itemDateTime, ChronoUnit.DAYS );
+			tempDateTime = tempDateTime.plusDays( days );
+
+			long hours = tempDateTime.until( itemDateTime, ChronoUnit.HOURS );
+			tempDateTime = tempDateTime.plusHours( hours );
+
+			long minutes = tempDateTime.until( itemDateTime, ChronoUnit.MINUTES );
+			tempDateTime = tempDateTime.plusMinutes( minutes );
+			
+			long diffMins = ChronoUnit.MINUTES.between(dateTimeNow, itemDateTime) + 45;
+			
+			final Runnable forcePayment = new Runnable() { 
+				/**
+				 * This will force payment after 45 mins
+				 */
+				@Override
+				public void run() {
+	    	        // Write code here that you want to execute periodically.
+					for(Order order: orders) {
+						if(item.getTableNo() == order.getTableno()) {
+							// Invoke payment here
+							InvoiceMGR.createInvoice(order, invoices, tables);
+							// Remove order here
+							OrderMGR.cancelOrder(orders, item.getTableNo());
+							break;
+						}
+					}
+	    	    }
+			};
+			scheduler.schedule(forcePayment, diffMins, TimeUnit.MINUTES);
+		}
+	}
+	
 }
