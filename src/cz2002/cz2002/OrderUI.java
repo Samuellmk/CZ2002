@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+
+import invoice.Invoice;
+import invoice.InvoiceIOMGR;
+import invoice.InvoiceMGR;
 import reservation.Reservation;
 import table.Table;
 
@@ -56,6 +60,7 @@ public class OrderUI {
 		System.out.println("1. Show Order Details");
 		System.out.println("2. Take Order");
 		System.out.println("3. Edit Order");
+        System.out.println("4. Pay Order");
 		System.out.println("To Exit enter -1");
 		
 	}
@@ -196,6 +201,21 @@ public class OrderUI {
                     break;
             } 
         }while(eChoice != -1);
+    }
+    public void payment(List<Order> orderList, List<Invoice> invoices, List<Table> tables){
+        System.out.println("Which order would you like to pay for?");
+        int tableno = sc.nextInt();
+        int i;
+        Order tempOrder;
+        for(i = 0;i<orderList.size();i++){
+            if(tableno == orderList.get(i).getTableno()){
+                tempOrder = orderList.get(i);
+                InvoiceMGR.createInvoice(tempOrder, invoices, tables);
+                return;
+            }
+        }
+        System.out.println("No order found");
+        return;
     }
 
 

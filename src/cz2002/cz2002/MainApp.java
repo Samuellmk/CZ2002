@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import invoice.Invoice;
+import invoice.InvoiceIOMGR;
+import invoice.InvoiceMGR;
 import reservation.Reservation;
 import reservation.ReservationIOMGR;
 import reservation.ReservationMGR;
@@ -26,6 +29,7 @@ public class MainApp {
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		ArrayList<Table> tables = new ArrayList<Table>();
 		ArrayList<Order> orderList = new ArrayList<Order>();
+		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 		
 		foodItems = FoodIOMGR.readFromFile();
 		promoItems = PromoIOMGR.readFromFile();
@@ -33,6 +37,7 @@ public class MainApp {
 		customers = CustIOMGR.readFromFile();
 		reservations = ReservationIOMGR.readFromFile();
 		tables = TableIOMGR.readFromFile();
+		invoices = InvoiceIOMGR.readFromFile();
 		
 		// Setting up Reservation Expiring Scheduler
 		ReservationMGR.checkExpiry(reservations);
@@ -46,7 +51,8 @@ public class MainApp {
 			System.out.println("1. Food Menu UI");
 			System.out.println("2. Reservation UI");
 			System.out.println("3. Order UI");
-			System.out.println("4. Save to file");
+			System.out.println("4. Print Revenue Report");
+			System.out.println("5. Save to file");
 			System.out.println("Enter -1, to exit");
 			System.out.println("----------------------");
 			System.out.print("Please selection an option: ");
@@ -63,10 +69,25 @@ public class MainApp {
 				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations, tables);
 				break;
 			case 4:
+				System.out.println("1. Monthly");
+				System.out.println("2. Daily");
+				int revenueChoice = sc.nextInt();
+				if(revenueChoice==1){
+					InvoiceMGR.printSalesRevenueReport("month",invoices);
+				}
+				else if(revenueChoice==2){
+					InvoiceMGR.printSalesRevenueReport("day",invoices);
+				}
+				else{
+					System.out.println("Invalid Choice");
+				}
+				break;
+			case 5:
 				FoodIOMGR.writeToFile(foodItems);
 				PromoIOMGR.writeToFile(promoItems);
 				ReservationIOMGR.writeToFile(reservations);
 				TableIOMGR.writeToFile(tables);
+				InvoiceIOMGR.writeToFile(invoices);
 				System.out.println("Saved!");
 				break;
 			case -1:
@@ -86,5 +107,6 @@ public class MainApp {
 		CustIOMGR.writeToFile(customers);
 		ReservationIOMGR.writeToFile(reservations);
 		TableIOMGR.writeToFile(tables);
+		InvoiceIOMGR.writeToFile(invoices);
 	}
 }
