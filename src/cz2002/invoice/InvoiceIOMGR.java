@@ -1,22 +1,22 @@
-public class InvoiceIOMGR {
+/*public class InvoiceIOMGR {
 
 	public ArrayList<Invoice> readFromFile() {
 		// TODO - implement InvoiceIOMGR.readFromFile
 		throw new UnsupportedOperationException();
-	}
+	}*/
 
 	/**
 	 * 
 	 * @param invoices
 	 */
-	public void writeToFile(ArrayList<Invoice> invoices) {
+	/*public void writeToFile(ArrayList<Invoice> invoices) {
 		// TODO - implement InvoiceIOMGR.writeToFile
 		throw new UnsupportedOperationException();
 	}
 
-}
+} */
 
-package cz2002;
+package invoice;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -94,8 +94,8 @@ public class CustIOMGR {
 		{
 			// create Bufferedwriter instance with a FileWriter
 			// the flag set to 'false' tells it to override a file if file exists
-			BufferedWriter out = new BufferedWriter(new FileWriter("Customer.txt", false));
-			for(int i =0; i< customers.size();i++) {
+			BufferedWriter out = new BufferedWriter(new FileWriter("Invoice.txt", false));
+			for(int i =0; i< invoices.size();i++) {
 				String output = customers.get(i).getMembership()+","+customers.get(i).getName()+","+customers.get(i).getContact();
 				out.write(output);
 				out.newLine();

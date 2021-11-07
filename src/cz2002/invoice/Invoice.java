@@ -1,14 +1,21 @@
-public class Invoice {
+package invoice;
 
+import java.util.ArrayList;
+import cz2002.Staff;
+import cz2002.MenuItem;
+
+public class Invoice {
+	
 	private Staff staff;
-	private ArrayList<OrderItem> orderItems;
+	private ArrayList<MenuItem> orderItems;
 	private int tableno;
-	private Date timestamp;
+	private String timestamp;
 	private double servicechrg;
 	private double GST;
 	private boolean discount;
+	private double total;
 
-    public Invoice(Staff staff, ArrayList<OrderItem> orderItems, int tableno, String timestamp, double servicechrg, double GST, boolean discount){
+    public Invoice(Staff staff, ArrayList<MenuItem> orderItems, int tableno, String timestamp, double servicechrg, double GST, boolean discount, double total){
         this.staff = staff;
         this.orderItems = orderItems;
         this.tableno = tableno;
@@ -16,6 +23,7 @@ public class Invoice {
         this.servicechrg = servicechrg;
         this.GST = GST;
         this.discount = discount;
+        this.total = total;
     }
 
 	public Staff getStaff() {
@@ -30,7 +38,7 @@ public class Invoice {
 		this.staff = staff;
 	}
 
-	public ArrayList<OrderItem> getOrderItems() {
+	public ArrayList<MenuItem> getOrderItems() {
 		return this.orderItems;
 	}
 
@@ -38,7 +46,7 @@ public class Invoice {
 	 * 
 	 * @param orderItems
 	 */
-	public void setOrderItems(ArrayList<OrderItem> orderItems) {
+	public void setOrderItems(ArrayList<MenuItem> orderItems) {
 		this.orderItems = orderItems;
 	}
 
@@ -54,7 +62,7 @@ public class Invoice {
 		this.tableno = tableno;
 	}
 
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return this.timestamp;
 	}
 
@@ -62,7 +70,7 @@ public class Invoice {
 	 * 
 	 * @param timestamp
 	 */
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -92,6 +100,13 @@ public class Invoice {
 
 	public boolean getDiscount() {
 		return this.discount;
+	}
+	
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	public double getTotal() {
+		return this.total;
 	}
 
 }

@@ -60,7 +60,7 @@ public class MainApp {
 				ReservationUI reservationUI = new ReservationUI(reservations, customers, tables);
 				break;
 			case 3:
-				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations);
+				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations, tables);
 				break;
 			case 4:
 				FoodIOMGR.writeToFile(foodItems);

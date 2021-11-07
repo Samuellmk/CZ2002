@@ -14,7 +14,7 @@ public class OrderUI {
 
 	public Scanner sc = new Scanner(System.in);
 
-	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations)
+	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations, List<Table> tables)
 	{
 		for(int b=0; b<staff.size(); b++)
 		{

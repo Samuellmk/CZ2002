@@ -1,9 +1,18 @@
-package cz2002;
+package invoice;
 
-//import java.time.format.DateTimeFormatter;  
+import java.time.format.DateTimeFormatter;  
 import java.util.ArrayList;
+import java.util.List;
+
+import cz2002.Customer;
+
+//import com.sun.tools.javac.util.List;
+
+import cz2002.Order;
+import table.Table;
+import table.TableMGR;
+
 import java.time.LocalDateTime;  
-import java.time.DateTimeFormatter;  
 public class InvoiceMGR {
 
 	/**
@@ -34,23 +43,23 @@ public class InvoiceMGR {
 	 */
 
      //creating an invoice from order
-	public static void createInvoice(Order order, List<Invoice> invoices) {
+	public static void createInvoice(Order order, List<Invoice> invoices, List<Table> tables) {
 		// TODO - implement InvoiceMGR.printInvoice
         //for(int i = 0;i<invoices.size();i++){
           //  if(order.getTableno()==invoices.get(i).getTableno()){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");  
         LocalDateTime now = LocalDateTime.now();  
-        String timestamp = now.format(format);
+        String timestamp = now.format(dtf);
         System.out.println("--------Invoice--------");
         System.out.println("Table No: "+order.getTableno());
-        System.out.println("Time: "+order.getTimestamp());
+        System.out.println("Time: "+timestamp);
         System.out.println("Order Items:");
         System.out.println("Item Name\tItem Price");
         double total = 0.0;
         for(int j = 0;j<order.getOrderItems().size();j++)
         {
-            System.out.println(order.getOrderItems()[i].getName()+"\t"+order.getOrderItems()[i].getPrice());
-            total+= order.getOrderItems()[i].getPrice();  
+            System.out.println(order.getOrderItems().get(j).getName()+"\t"+order.getOrderItems().get(j).getPrice());
+            total+= order.getOrderItems().get(j).getPrice();  
         }
         System.out.println("Subtotal: = "+total+"SGD");
         if(checkMember(order.getCustomer())){
@@ -66,10 +75,14 @@ public class InvoiceMGR {
         System.out.println("TOTAL = "+total+"SGD");
         System.out.println("Thank you for dining with us!");
         order.setPaid(true);
-        TableMGR.setOccupied(false, order.getTableno());
-        Invoice invoice = new Invoice(order.getStaff(), order.getOrderItems(), order.getTableno(), timestamp, servicechrg, GST, checkMember(), total);
+        //Table.setOccupied(false, order.getTableno());
+        for(int i = 0;i<tables.size();i++){
+            if(tables.get(i).getTableNo()==order.getTableno()){
+                tables.get(i).setOccupied(false);
+            }
+        }
+        Invoice invoice = new Invoice(order.getStaff(), order.getOrderItems(), order.getTableno(), timestamp, servicechrg, GST, checkMember(order.getCustomer()), total);
         invoices.add(invoice);
-        break;
 	}
 
 	/**
@@ -81,10 +94,10 @@ public class InvoiceMGR {
         if(period.equals("day")){
             for(int i = 0;i<invoices.size();i++){
                 double revenue = 0;
-                String timestamp = Invoices.get(i).timestamp.substring(0,10);
+                String timestamp = invoices.get(i).getTimestamp().substring(0,10);
                 int j = i;
-                while(Invoices.get(j).timestamp.substring(0,10).equals(timestamp)){
-                    revenue += total;
+                while(invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
+                    revenue += invoices.get(j).getTotal();
                     j++;
                 }
                 i=j;
@@ -94,10 +107,10 @@ public class InvoiceMGR {
         else if(period.equals("month")){
             for(int i = 0;i<invoices.size();i++){
                 double revenue = 0;
-                String timestamp = Invoices.get(i).timestamp.substring(0,5);
+                String timestamp = invoices.get(i).getTimestamp().substring(0,5);
                 int j = i;
-                while(Invoices.get(j).timestamp.substring(0,10).equals(timestamp)){
-                    revenue += total;
+                while(invoices.get(j).getTimestamp().substring(0,5).equals(timestamp)){
+                    revenue += invoices.get(j).getTotal();
                     j++;
                 }
                 i=j;
@@ -109,5 +122,9 @@ public class InvoiceMGR {
 	public static boolean checkMember(Customer customer) {
         return customer.getMembership();
 	}
-
+	/*public static void main() {
+		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+		Order order = new order()
+		createInvoice(order, invoice)
+	}*/
 }
