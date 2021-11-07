@@ -10,7 +10,6 @@ import cz2002.Customer;
 
 import cz2002.Order;
 import table.Table;
-import table.TableMGR;
 
 import java.time.LocalDateTime;  
 public class InvoiceMGR {
@@ -81,7 +80,7 @@ public class InvoiceMGR {
                 tables.get(i).setOccupied(false);
             }
         }
-        Invoice invoice = new Invoice(order.getStaff(), order.getOrderItems(), order.getTableno(), timestamp, servicechrg, GST, checkMember(order.getCustomer()), total);
+        Invoice invoice = new Invoice(order.getStaff().getEmployeeID(), order.getOrderItems(), order.getTableno(), timestamp, servicechrg, GST, checkMember(order.getCustomer()), total);
         invoices.add(invoice);
 	}
 
@@ -90,13 +89,13 @@ public class InvoiceMGR {
 	 * @param period
 	 * @param invoices
 	 */
-	public static void printSaleRevenueReport(String period, ArrayList<Invoice> invoices) {
+	public static void printSalesRevenueReport(String period, ArrayList<Invoice> invoices) {
         if(period.equals("day")){
             for(int i = 0;i<invoices.size();i++){
                 double revenue = 0;
                 String timestamp = invoices.get(i).getTimestamp().substring(0,10);
                 int j = i;
-                while(invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
+                if(invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
                     revenue += invoices.get(j).getTotal();
                     j++;
                 }
@@ -109,7 +108,7 @@ public class InvoiceMGR {
                 double revenue = 0;
                 String timestamp = invoices.get(i).getTimestamp().substring(0,5);
                 int j = i;
-                while(invoices.get(j).getTimestamp().substring(0,5).equals(timestamp)){
+                if(invoices.get(j).getTimestamp().substring(0,5).equals(timestamp)){
                     revenue += invoices.get(j).getTotal();
                     j++;
                 }
@@ -122,9 +121,4 @@ public class InvoiceMGR {
 	public static boolean checkMember(Customer customer) {
         return customer.getMembership();
 	}
-	/*public static void main() {
-		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
-		Order order = new order()
-		createInvoice(order, invoice)
-	}*/
 }

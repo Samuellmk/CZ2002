@@ -1,12 +1,11 @@
 package invoice;
 
 import java.util.ArrayList;
-import cz2002.Staff;
 import cz2002.MenuItem;
 
 public class Invoice {
 	
-	private Staff staff;
+	private String employeeID;
 	private ArrayList<MenuItem> orderItems;
 	private int tableno;
 	private String timestamp;
@@ -15,8 +14,8 @@ public class Invoice {
 	private boolean discount;
 	private double total;
 
-    public Invoice(Staff staff, ArrayList<MenuItem> orderItems, int tableno, String timestamp, double servicechrg, double GST, boolean discount, double total){
-        this.staff = staff;
+    public Invoice(String employeeID, ArrayList<MenuItem> orderItems, int tableno, String timestamp, double servicechrg, double GST, boolean discount, double total){
+        this.employeeID = employeeID;
         this.orderItems = orderItems;
         this.tableno = tableno;
         this.timestamp = timestamp;
@@ -26,16 +25,16 @@ public class Invoice {
         this.total = total;
     }
 
-	public Staff getStaff() {
-		return this.staff;
+	public String getEmployeeID() {
+		return this.employeeID;
 	}
 
 	/**
 	 * 
 	 * @param staff
 	 */
-	public void setStaff(Staff staff) {
-		this.staff = staff;
+	public void setEmployeeID(String employeeID) {
+		this.employeeID = employeeID;
 	}
 
 	public ArrayList<MenuItem> getOrderItems() {
