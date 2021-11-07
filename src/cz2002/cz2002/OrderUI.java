@@ -27,8 +27,15 @@ public class OrderUI {
 		}
 		
 		System.out.println("Which staff no. is taking order");
-		int staffno = sc.nextInt();
+		int totalStaff = staff.size();
+		int staffno = sc.nextInt();		
+		if((staffno-1>=totalStaff) || staffno<0)
+		{
+			System.out.println("Please enter a valid staff ID!");
+			return;
+		}
 		Staff orderstaff = staff.get(staffno-1);
+		
 		
 		int choice = -1;
 		do {
