@@ -12,13 +12,14 @@ import invoice.InvoiceIOMGR;
 import invoice.InvoiceMGR;
 import reservation.Reservation;
 import table.Table;
+import table.TableMGR;
 
 public class OrderUI {
 	
 
 	public Scanner sc = new Scanner(System.in);
 
-	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations, List<Table> tables)
+	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations, List<Table> tables,List<Invoice> invoices)
 	{
 		for(int b=0; b<staff.size(); b++)
 		{
@@ -40,11 +41,14 @@ public class OrderUI {
 				showOrderDetails(orderList);
 				break;				
 			case 2:
-				takeOrder(orderstaff, orderList, foodItems, promoItems,reservations);
+				takeOrder(orderstaff, orderList, foodItems, promoItems,reservations,tables);
 				break; 
 				
 			case 3:
-				editOrder(orderstaff, foodItems, promoItems,orderList);
+				editOrder(orderstaff, foodItems, promoItems,orderList,tables);
+				break;
+			case 4:
+				payment(orderList,invoices,tables);
 				break;
 				
 			default:
@@ -87,7 +91,7 @@ public class OrderUI {
 		}
 	}
 	
-    public void takeOrder(Staff orderstaff,List<Order> orderList, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems,List<Reservation> reservations)
+    public void takeOrder(Staff orderstaff,List<Order> orderList, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems,List<Reservation> reservations,List<Table> tables)
     {
         int i; 
         Customer customer = null;
@@ -132,6 +136,7 @@ public class OrderUI {
         
         int oChoice;
         OrderMGR.createOrder(orderstaff, tableno, false, orderList, customer);
+        TableMGR.setTableOccupancy(tables, tableno, true);
         do
         {
             System.out.println("Pick a task: ");
@@ -156,7 +161,7 @@ public class OrderUI {
         }while(oChoice != -1);
     }
 
-    public void editOrder(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList)
+    public void editOrder(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList,List<Table> tables)
     {
         int i;
         System.out.println("Which TABLE NUMBER are you editing for?");
@@ -193,7 +198,7 @@ public class OrderUI {
                     break; 
                     
                 case 3:
-                    cancelOrderUI(orderList, tableno);
+                    cancelOrderUI(orderList, tableno,tables);
                     break;
                     
                 default:
@@ -204,6 +209,14 @@ public class OrderUI {
     }
     public void payment(List<Order> orderList, List<Invoice> invoices, List<Table> tables){
         System.out.println("Which order would you like to pay for?");
+        for(int j=0;j<orderList.size();j++) {
+        	System.out.println(j+1+")"+" "+orderList.get(j).getStaff()+" "+orderList.get(j).getTableno()+" "+
+        orderList.get(j).getCustomer());
+        	for(int k=0;k<orderList.get(j).getOrderItems().size();k++) {
+        		System.out.println(orderList.get(j).getOrderItems().get(k).getName()+" "+"Price "+
+        	orderList.get(j).getOrderItems().get(k).getPrice());
+        	}
+        }
         int tableno = sc.nextInt();
         int i;
         Order tempOrder;
@@ -336,10 +349,11 @@ public class OrderUI {
         OrderMGR.removeOrderItem(oIndex, itemIndex, orderList);
     }
 
-    public void cancelOrderUI(List<Order> orderList, int tableno)
+    public void cancelOrderUI(List<Order> orderList, int tableno,List<Table> tables)
     {
         System.out.println("no of orders: " + orderList.size());
     	OrderMGR.cancelOrder(orderList,tableno);
+    	TableMGR.setTableOccupancy(tables, tableno, false);
 
     }
 	

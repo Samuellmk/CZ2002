@@ -8,14 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cz2002.BaseIOMGR;
 import cz2002.Customer;
 import table.TableSeats;
 
-public class ReservationIOMGR {
+public class ReservationIOMGR implements BaseIOMGR{
 	/*
 	 * Method to read persistent data from file for customers test
 	 */
-	public static ArrayList<Reservation> readFromFile() {
+	public ArrayList<Reservation> readFromFile() {
 		ArrayList<Reservation> reservationItems = new ArrayList<>();
 		try
 		{

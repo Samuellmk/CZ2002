@@ -31,13 +31,21 @@ public class MainApp {
 		ArrayList<Order> orderList = new ArrayList<Order>();
 		ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 		
-		foodItems = FoodIOMGR.readFromFile();
-		promoItems = PromoIOMGR.readFromFile();
-		staff = StaffIOMGR.readFromFile();
-		customers = CustIOMGR.readFromFile();
-		reservations = ReservationIOMGR.readFromFile();
-		tables = TableIOMGR.readFromFile();
-		invoices = InvoiceIOMGR.readFromFile();
+		FoodIOMGR foodIOMGR = new FoodIOMGR();
+		PromoIOMGR promoIOMGR = new PromoIOMGR();
+		StaffIOMGR staffIOMGR = new StaffIOMGR();
+		CustIOMGR custIOMGR = new CustIOMGR();
+		ReservationIOMGR reservationIOMGR = new ReservationIOMGR();
+		TableIOMGR tableIOMGR = new TableIOMGR();
+		InvoiceIOMGR invoiceIOMGR = new InvoiceIOMGR();
+		
+		foodItems = foodIOMGR.readFromFile();
+		promoItems = promoIOMGR.readFromFile();
+		staff = staffIOMGR.readFromFile();
+		customers = custIOMGR.readFromFile();
+		reservations = reservationIOMGR.readFromFile();
+		tables = tableIOMGR.readFromFile();
+		invoices = invoiceIOMGR.readFromFile();
 		
 		// Setting up Reservation Expiring Scheduler
 		ReservationMGR.checkExpiry(reservations);
@@ -66,7 +74,7 @@ public class MainApp {
 				ReservationUI reservationUI = new ReservationUI(reservations, customers, tables);
 				break;
 			case 3:
-				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations, tables);
+				OrderUI orderUI = new OrderUI(foodItems, promoItems,orderList,staff,reservations, tables,invoices);
 				break;
 			case 4:
 				System.out.println("1. Monthly");

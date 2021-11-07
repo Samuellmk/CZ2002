@@ -8,11 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class StaffIOMGR {
+public class StaffIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for staff
 	 */
-	public static ArrayList<Staff> readFromFile() {
+	public ArrayList<Staff> readFromFile() {
 		ArrayList<Staff> staff = new ArrayList<>();
 		try
 		{

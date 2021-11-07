@@ -2,11 +2,11 @@ package cz2002;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FoodIOMGR {
+public class FoodIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for Food Items
 	 */
-	public static ArrayList<Food> readFromFile() {
+	public ArrayList<Food> readFromFile() {
 		// create ArrayList to store the food objects
 				ArrayList<Food> foodItems = new ArrayList<>();
 				try

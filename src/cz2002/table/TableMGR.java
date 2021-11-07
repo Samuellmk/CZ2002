@@ -1,5 +1,6 @@
 package table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,5 +55,13 @@ public class TableMGR {
 				return table.getTableNo();
 		}
 		return -1;
+	}
+	
+	public static void setTableOccupancy(List<Table> tables, int tableno, boolean occupy) {
+		for(int i=0;i<tables.size() ;i++) {
+			if(tables.get(i).getTableNo()==tableno){
+                tables.get(i).setOccupied(occupy);
+            }
+		}
 	}
 }

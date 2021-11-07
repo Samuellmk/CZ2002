@@ -71,6 +71,7 @@ public class InvoiceMGR {
         double servicechrg = SERVICE_CHARGE*total;
         total+=servicechrg;
         double GST = GST_RATE*total;
+        total+=GST;
         System.out.println("TOTAL = "+total+"SGD");
         System.out.println("Thank you for dining with us!");
         order.setPaid(true);

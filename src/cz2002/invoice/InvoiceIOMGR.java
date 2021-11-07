@@ -8,17 +8,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cz2002.BaseIOMGR;
 import cz2002.Food;
 import cz2002.MenuItem;
 import cz2002.PromoPackage;
 import cz2002.Type;
 import invoice.Invoice;
 
-public class InvoiceIOMGR {
+public class InvoiceIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for customers test 
 	 */
-	public static ArrayList<Invoice> readFromFile() {
+	public ArrayList<Invoice> readFromFile() {
 		ArrayList<Invoice> invoices = new ArrayList<>();
 		try
 		{
@@ -57,7 +58,7 @@ public class InvoiceIOMGR {
 				ArrayList<MenuItem> tempOrderItems= new ArrayList<MenuItem>();
 				int i = 8;
 				for(i=8;i<8+numOrderItems*5;i+=5){
-					if(tokenize[i].equals('f')){
+					if(tokenize[i].equals("f")){
 						String tempName = tokenize[i+1];
 						Type tempType = Type.valueOf(tokenize[i+2].toUpperCase());
 						String tempDesc = tokenize[i+3];

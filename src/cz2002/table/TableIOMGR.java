@@ -8,11 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TableIOMGR {
+import cz2002.BaseIOMGR;
+
+public class TableIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for customers test
 	 */
-	public static ArrayList<Table> readFromFile() {
+	public ArrayList<Table> readFromFile() {
 		ArrayList<Table> tableItems = new ArrayList<>();
 		try
 		{

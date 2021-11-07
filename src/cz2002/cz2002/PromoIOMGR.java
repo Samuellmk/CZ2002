@@ -8,12 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PromoIOMGR {
+public class PromoIOMGR implements BaseIOMGR{
 	
 	/*
 	 * Method to read persistent data from file for Promo Items
 	 */
-	public static ArrayList<PromoPackage> readFromFile() {
+	public ArrayList<PromoPackage> readFromFile() {
 		// create ArrayList to store the food objects
 		ArrayList<PromoPackage> promoItems = new ArrayList<>();
 		try
