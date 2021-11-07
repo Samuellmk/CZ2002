@@ -57,10 +57,17 @@ public class TableMGR {
 		return -1;
 	}
 	
-	public static void setTableOccupancy(List<Table> tables, int tableno, boolean occupy) {
+	/**
+	 * This will set the table occupacy with respect to table No
+	 * 
+	 * @param tables		the Table List from Mainapp.java
+	 * @param tableNo		the Table No of the table
+	 * @param occupied		the table occupancy
+	 */
+	public static void setTableOccupancy(List<Table> tables, int tableNo, boolean occupied) {
 		for(int i=0;i<tables.size() ;i++) {
-			if(tables.get(i).getTableNo()==tableno){
-                tables.get(i).setOccupied(occupy);
+			if(tables.get(i).getTableNo()==tableNo){
+                tables.get(i).setOccupied(occupied);
             }
 		}
 	}
