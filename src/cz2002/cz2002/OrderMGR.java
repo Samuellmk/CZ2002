@@ -90,11 +90,16 @@ public class OrderMGR {
 	 * @param order
 	 * @param index
 	 */
-	public static void removeOrderItem(int ordersIndex, int itemIndex, List<Order> orderList)
+	public static void removeOrderItem(int ordersIndex, int itemIndex, List<Order> orderList,int tableno)
 	{
 		ArrayList<MenuItem> tempOrder = orderList.get(ordersIndex).getOrderItems(); 
 		tempOrder.remove(itemIndex-1);
-		orderList.get(ordersIndex).setOrderItems(tempOrder);  
+		orderList.get(ordersIndex).setOrderItems(tempOrder);
+		if(tempOrder.size()==0)
+		{
+			System.out.println("No more item in this order, cancelling order...");
+			cancelOrder(orderList,tableno);
+		}
 		   
 		
 	}

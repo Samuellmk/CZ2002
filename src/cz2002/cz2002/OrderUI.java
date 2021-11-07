@@ -58,6 +58,10 @@ public class OrderUI {
 				payment(orderList,invoices,tables);
 				break;
 				
+			case -1:
+				System.out.println("Exiting...");
+				break;	
+				
 			default:
 				System.out.println("Please select a number within the list!");
 				break;
@@ -159,7 +163,11 @@ public class OrderUI {
                     break;				
                 case 2:
                     addP(orderstaff, promoItems,orderList, tableno);
-                    break; 
+                    break;
+                    
+                case -1:
+    				System.out.println("Exiting...");
+    				break;    
 
                 default:
                     System.out.println("Please select a number within the list!");
@@ -192,6 +200,18 @@ public class OrderUI {
         int eChoice;
         do
         {
+        	for(i=0; i<orderList.size(); i++)
+            {
+                if(orderList.get(i).getTableno() == tableno)
+                {
+                    break;
+                }
+            }
+        	if(i>=orderList.size())
+            {
+        		System.out.println("No existing orders for this table yet! Please take new order first!");
+              	return;
+            }
             editOrderUI();
             System.out.println("Pick a task: ");
             eChoice = sc.nextInt();
@@ -208,6 +228,10 @@ public class OrderUI {
                     cancelOrderUI(orderList, tableno,tables);
                     break;
                     
+                case -1:
+    				System.out.println("Exiting...");
+    				break;     
+                    
                 default:
                     System.out.println("Please select a number within the list!");
                     break;
@@ -215,27 +239,30 @@ public class OrderUI {
         }while(eChoice != -1);
     }
     public void payment(List<Order> orderList, List<Invoice> invoices, List<Table> tables){
+    	if(orderList.size()==0)
+    	{
+    		System.out.println("No existing orders to pay for!!!");
+    		return;
+    	}
         System.out.println("Which order would you like to pay for?");
         for(int j=0;j<orderList.size();j++) {
-        	System.out.println(j+1+")"+" "+orderList.get(j).getStaff()+" "+orderList.get(j).getTableno()+" "+
-        orderList.get(j).getCustomer());
+        	System.out.println(j+1+")"+" "+orderList.get(j).getStaff().getName()+" "+orderList.get(j).getTableno()+" "+
+        orderList.get(j).getCustomer().getName());
         	for(int k=0;k<orderList.get(j).getOrderItems().size();k++) {
         		System.out.println(orderList.get(j).getOrderItems().get(k).getName()+" "+"Price "+
         	orderList.get(j).getOrderItems().get(k).getPrice());
         	}
         }
-        int tableno = sc.nextInt();
-        int i;
-        Order tempOrder;
-        for(i = 0;i<orderList.size();i++){
-            if(tableno == orderList.get(i).getTableno()){
-                tempOrder = orderList.get(i);
-                InvoiceMGR.createInvoice(tempOrder, invoices, tables);
-                return;
-            }
+        int oIndex = sc.nextInt();
+        if(oIndex>orderList.size() || oIndex<0)
+        {
+        	System.out.println("Please enter a valid order index!");
+        	return;
         }
-        System.out.println("No order found");
-        return;
+        Order tempOrder;
+        tempOrder = orderList.get(oIndex-1);
+        InvoiceMGR.createInvoice(tempOrder, invoices, tables);
+   
     }
 
 
@@ -270,6 +297,10 @@ public class OrderUI {
                 case 2:
                     addP(orderstaff,promoItems,orderList,tableno);
                     break; 
+                    
+                case -1:
+    				System.out.println("Exiting...");
+    				break;    
 
                 default:
                     System.out.println("Please select a number within the list!");
@@ -335,32 +366,51 @@ public class OrderUI {
 
     public void removeOrderItemUI(List<Order> orderList, int tableno)
     {
-        OrderMGR.printOrder(tableno, orderList);
-    	System.out.println("which item INDEX of the order do you want to DELETE?");
-        int itemIndex;
-        itemIndex = sc.nextInt();
-        int oIndex;
+    	int oIndex;
+   
         for(oIndex = 0; oIndex<orderList.size(); oIndex++)
         {
         	if(orderList.get(oIndex).getTableno() == tableno)
         	{
-        		break;
-        	}
+        		OrderMGR.printOrder(tableno, orderList);
+            	System.out.println("which item INDEX of the order do you want to DELETE?");
+             	int itemIndex = sc.nextInt();
+            	if(itemIndex>orderList.get(oIndex).getOrderItems().size() || itemIndex<0)
+                {
+            		System.out.println("Please enter a valid index NO.! Try again...");
+                 	return;
+                }
+                                         
+                OrderMGR.removeOrderItem(oIndex, itemIndex, orderList,tableno);
+            	return;
+          	}
         }
-        if(itemIndex>orderList.get(oIndex).getOrderItems().size() || itemIndex<0)
-        {
-        	System.out.println("Please enter a valid index NO.! Try again...");
-        	return;
-        }
-                                
-        OrderMGR.removeOrderItem(oIndex, itemIndex, orderList);
+        
+    	System.out.println("No existing order yet! Nothing to remove!");
+    	return;
+    	
+       
     }
 
     public void cancelOrderUI(List<Order> orderList, int tableno,List<Table> tables)
     {
-        System.out.println("no of orders: " + orderList.size());
-    	OrderMGR.cancelOrder(orderList,tableno);
-    	TableMGR.setTableOccupancy(tables, tableno, false);
+    	
+    	int oIndex;
+        for(oIndex = 0; oIndex<orderList.size(); oIndex++)
+        {
+        	if(orderList.get(oIndex).getTableno() == tableno)
+        	{
+        		OrderMGR.cancelOrder(orderList,tableno);
+    	    	TableMGR.setTableOccupancy(tables, tableno, false);		
+    	    	System.out.println("Order Cancelled!");
+    	    	return;
+        	}
+        }
+        
+    	System.out.println("No existing order yet! Nothing to cancel!");
+    	return;
+    	
+    	
 
     }
 	
