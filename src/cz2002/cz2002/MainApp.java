@@ -48,13 +48,12 @@ public class MainApp {
 		invoices = invoiceIOMGR.readFromFile();
 		
 		// Setting up Reservation Expiring Scheduler
-		ReservationMGR.checkExpiry(reservations);
-		ReservationMGR.checkAfter45Mins(reservations, orderList, invoices, tables);
+		ReservationMGR.checkExpiry(reservations, orderList, invoices, tables);
 		
 		Scanner sc=new Scanner(System.in);
 		int choice = -1;
 		do {
-			System.out.println("\n----------------------");
+			System.out.println("----------------------");
 			System.out.println("Main Menu");	
 			System.out.println("----------------------");
 			System.out.println("1. Food Menu UI");

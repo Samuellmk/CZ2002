@@ -58,7 +58,7 @@ public class TableMGR {
 	}
 	
 	/**
-	 * This will set the table occupacy with respect to table No
+	 * This will set the table occupancy with respect to table No
 	 * 
 	 * @param tables		the Table List from Mainapp.java
 	 * @param tableNo		the Table No of the table

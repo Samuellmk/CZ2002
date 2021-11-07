@@ -73,10 +73,10 @@ public class ReservationMGR {
 		ArrayList<Integer> tableNoTaken = new ArrayList<Integer>();
 		for(Reservation item: reservationItems) {
 			LocalDateTime bookedTimeDate = LocalDateTime.parse(item.getDateTime(), formatter);
-			if(inputDateTime.plusMinutes(1).isAfter(bookedTimeDate) && 
+			if(inputDateTime.plusMinutes(45).isAfter(bookedTimeDate) || 
 			   bookedTimeDate.plusMinutes(45).isAfter(inputDateTime)) {
 				tableNoTaken.add(item.getTableNo());
-				System.out.println(item.getTableNo());
+				//System.out.println(item.getTableNo());
 			}
 		}
 		int tableNo = TableMGR.checkTableAvail(pax, tables, tableNoTaken);
@@ -101,7 +101,7 @@ public class ReservationMGR {
 		for(int i=0; i<reservationItems.size(); i++) {
 			Customer customer = reservationItems.get(i).getCustomer();
 			if(contact.equals(customer.getContact())) {
-				System.out.println("***"+customer.getName()+
+				System.out.println("\n***"+customer.getName()+
 						"\'s reservation removed ("+customer.getContact()+
 						")***");
 				reservationItems.remove(i);
@@ -126,10 +126,10 @@ public class ReservationMGR {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			LocalDate ltDate = LocalDate.parse(date, formatter);
 			if(ltDate.isAfter(LocalDate.now()) && 
-			   ltDate.isBefore(LocalDate.now().plusDays(ADV_BOOKING_DAYS)))
+			   ltDate.isBefore(LocalDate.now().plusDays(ADV_BOOKING_DAYS + 1)))
 				return true;
 			else {
-				System.out.println("Please enter booking day one day after today");
+				System.out.println("Advance booking can only be made for next day or 7 days in advance");
 				return false;
 			}
 		}
@@ -149,13 +149,15 @@ public class ReservationMGR {
 	public static boolean checkValidTime(String time) {
 		try {
 			LocalTime bookingTime= LocalTime.parse(time);
+			/*
 			if(bookingTime.isAfter(LocalTime.parse("18:29")) &&
 			   bookingTime.isBefore(LocalTime.parse("20:46")))
 				return true;
 			else {
 				System.out.println(time+" is not between 18:30 and 20:45");
 				return false;
-			}
+			*/
+			return true;
 		}
 		catch(Exception e) {
 			System.out.println(time+" is not a valid time");
@@ -174,7 +176,6 @@ public class ReservationMGR {
 		while(contact.length() != 8 ||
 				(contact.charAt(0) < '8' || contact.charAt(0) > '9')) {
 				System.out.println("Invalid phone number - Try Again");
-				System.out.print("Enter phone number: ");
 				return false;
 			}
 		return true;
@@ -189,16 +190,18 @@ public class ReservationMGR {
 	 * @param reservationItems  the reservations ArrayList from 
 	 * 							MainApp.java
 	 */
-	public static void checkExpiry(List<Reservation> reservationItems) {
+	public static void checkExpiry(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime itemDateTime;
     	LocalDateTime dateTimeNow = LocalDateTime.now(); 
 		ArrayList<String> deletionArrayList = new ArrayList<>();
+    	if(reservationItems.size() == 0)
+    		return;
     	
 		System.out.println("--------------------------------------------");
 		System.out.println("Reservations List");
 		System.out.println("--------------------------------------------");
-    	
+	
 		for(Reservation item : reservationItems) {
 			itemDateTime = LocalDateTime.parse(item.getDateTime(), formatter);
 			
@@ -248,11 +251,14 @@ public class ReservationMGR {
 				tempArrayList = new ArrayList<Reservation>(reservationItems);				
 			}
 			ReservationIOMGR.writeToFile(tempArrayList);
+			System.out.println("--------------------------------------------");
 		}
-		System.out.println("--------------------------------------------");
+		System.out.println("");
+		if(!reservationItems.isEmpty())
+			checkAfter45Mins(reservationItems, orders, invoices, tables);
 	}
 	
-	public static void checkAfter45Mins(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
+	private static void checkAfter45Mins(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime itemDateTime;
     	LocalDateTime dateTimeNow = LocalDateTime.now(); 
@@ -285,11 +291,11 @@ public class ReservationMGR {
 	    	        // Write code here that you want to execute periodically.
 					for(Order order: orders) {
 						if(item.getTableNo() == order.getTableno()) {
+							System.out.println("45 minutes is up! Automatically create Invoice...");
 							// Invoke payment here
 							InvoiceMGR.createInvoice(order, invoices, tables);
 							// Remove order here
 							OrderMGR.cancelOrder(orders, item.getTableNo());
-							break;
 						}
 					}
 	    	    }

@@ -89,13 +89,13 @@ public class ReservationUI {
 			while(!validTime) {
 				System.out.print("\nEnter the Time (HH:mm) or -1 to exit: ");
 				time = sc.next();
-				/*
+				
 				if(time.equals("-1")) {
 					System.out.println("Exiting...");
 					return;
 				}
 				validTime = ReservationMGR.checkValidTime(time);
-				*/
+				
 			}
 			dateTime = date + " " + time;
 			
