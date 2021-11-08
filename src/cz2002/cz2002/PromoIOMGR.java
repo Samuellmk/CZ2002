@@ -42,7 +42,7 @@ public class PromoIOMGR implements BaseIOMGR{
 					Type tempFoodType = Type.valueOf(tokenize[i+1].toUpperCase());
 					String tempFoodDesc = tokenize[i+2];
 					double tempFoodPrice = Double.parseDouble(tokenize[i+3]);
-					Food tempFood = new Food(tempName,tempFoodType,tempFoodDesc,tempFoodPrice);
+					Food tempFood = new Food(tempFoodName,tempFoodType,tempFoodDesc,tempFoodPrice);
 					tempFoodItems.add(tempFood);
 				}
 				String tempDesc = tokenize[i];
