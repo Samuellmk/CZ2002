@@ -6,78 +6,90 @@ import java.util.List;
 import java.lang.Math;
 import cz2002.Customer;
 
-//import com.sun.tools.javac.util.List;
 
 import cz2002.Order;
 import table.Table;
 
-import java.time.LocalDateTime;  
+import java.time.LocalDateTime; 
+
+/**
+* InvoiceMGR can create generate invoices based input and print the sales revenue report either by day or month as per the user's preference.
+*
+* @author Tejas Rajagopal
+*/ 
+
 public class InvoiceMGR {
 
 	/**
 	 * 
-	 * @param staff
-	 * @param orderItem
-	 * @param tableno
-	 * @param timestamp
-	 * @param servicechrg
-	 * @param GST
+	 * @param staff  the staff taking the order
+	 * @param orderItem the items that were ordered by the customer
+	 * @param tableno the table where the order was taken
+	 * @param timestamp the time at which the invoice is generated
+	 * @param servicechrg the percentage of service charge to be applied to the subtotal
+	 * @param GST the percentage of GST to be applied to the subtotal
 	 */
     public static final double DISCOUNT_RATE = 0.10; //Assuming that members get a 10% discount
     public static final double GST_RATE = 0.07;
     public static final double SERVICE_CHARGE = 0.10;
-	/*public Invoice createInvoice(Staff staff, ArrayList<OrderItem> orderItems, int tableno, double servicechrg, double GST) {
-		// TODO - implement InvoiceMGR.createInvoice
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");  
-        LocalDateTime now = LocalDateTime.now();  
-        String timestamp = now.format(format);
-        Invoice invoice = new Invoice(staff, orderitems, tableno, timestamp, servicechrg, GST);
-	}*/
 
 	/**
 	 * 
-	 * @param order
-	 * @param invoices
-	 * @param discount
+	 * @param order the order for which the invoices is generated
+	 * @param invoices the list of invoices
+	 * @param discount the discount percentage to be applied if the customer is a member
 	 */
 
      //creating an invoice from order
 	public static void createInvoice(Order order, List<Invoice> invoices, List<Table> tables) {
-		// TODO - implement InvoiceMGR.printInvoice
-        //for(int i = 0;i<invoices.size();i++){
-          //  if(order.getTableno()==invoices.get(i).getTableno()){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");  
         LocalDateTime now = LocalDateTime.now();  
         String timestamp = now.format(dtf);
-        System.out.println("------------Invoice------------");
+        System.out.println("----------------Invoice----------------------");
         System.out.println("Staff: "+order.getStaff().getName()+"\tDate: "+timestamp.substring(0,10));
-        System.out.println("Table: "+order.getTableno()+"\tTime: "+timestamp.substring(11));
-        System.out.println("-------------------------------");
+        System.out.println("Table: "+order.getTableno()+"\t\tTime: "+timestamp.substring(11));
+        System.out.println("---------------------------------------------");
         System.out.println("Order Items:");
-        System.out.println("Item Name\t\tItem Price");
+        System.out.println("Quantity\tItem Name\t\tPrice");
         double total = 0.0;
+        int q[] = new int[order.getOrderItems().size()];;
+        int tempQuant=1;
+        for(int i = 0;i<q.length;i++){
+            q[i] = 0;
+        }
         for(int j = 0;j<order.getOrderItems().size();j++)
         {
-            System.out.println(order.getOrderItems().get(j).getName()+"\t"+order.getOrderItems().get(j).getPrice());
+            tempQuant=1;
+            for(int i = 0;i<order.getOrderItems().size();i++){
+                if(order.getOrderItems().get(j).getName().equals(order.getOrderItems().get(i).getName()) && i!=j && q[i]==0){
+                    tempQuant++;
+                    q[i]=1;
+                }
+            }
+            if(q[j]==0)
+            {
+            System.out.println(tempQuant+"\t\t"+order.getOrderItems().get(j).getName()+"\t\t"+tempQuant*order.getOrderItems().get(j).getPrice());
+            }
             total+= order.getOrderItems().get(j).getPrice();  
         }
-        System.out.println("\tSubtotal: = "+total+"SGD");
+        System.out.println("---------------------------------------------");
+        System.out.println("\t\tSubtotal: "+total+" SGD");
         if(checkMember(order.getCustomer())){
             total = (1-DISCOUNT_RATE)*total; // Discount rate is set at 10% for members
-            System.out.println("\tDiscount = "+(DISCOUNT_RATE*100)+"%");
+            System.out.println("\t\tDiscount: "+(DISCOUNT_RATE*100)+"%");
         }
-        System.out.printf("\tGST: %.1f", GST_RATE*100);
+        System.out.printf("\t\tGST: %.1f", GST_RATE*100);
         System.out.print("%\n");
-        System.out.printf("\tService Charge: %.1f", SERVICE_CHARGE*100);
+        System.out.printf("\t\tService Charge: %.1f", SERVICE_CHARGE*100);
         System.out.print("%\n");
         double servicechrg = SERVICE_CHARGE*total;
         total+=servicechrg;
         double GST = GST_RATE*total;
         total+=GST;
-        System.out.println("\tTOTAL: "+total+"SGD");
-        System.out.println("Thank you for dining with us!");
+        System.out.printf("\t\tTOTAL: %.2f",total);
+        System.out.print(" SGD\n");
+        System.out.println("--------Thank you for dining with us!--------");
         order.setPaid(true);
-        //Table.setOccupied(false, order.getTableno());
         for(int i = 0;i<tables.size();i++){
             if(tables.get(i).getTableNo()==order.getTableno()){
                 tables.get(i).setOccupied(false);
@@ -89,34 +101,40 @@ public class InvoiceMGR {
 
 	/**
 	 * 
-	 * @param period
-	 * @param invoices
+	 * @param period either day or month 
+	 * @param invoices list of invoices
 	 */
 	public static void printSalesRevenueReport(String period, ArrayList<Invoice> invoices) {
         System.out.println("Revenue Report:");
         if(period.equals("day")){
-            for(int i = 0;i<invoices.size();i++){
-                double revenue = 0;
+            int i = 0;
+            while(i<invoices.size()){
                 String timestamp = invoices.get(i).getTimestamp().substring(0,10);
-                int j = i;
-                if(invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
-                    revenue += invoices.get(j).getTotal();
+                int j = i+1;
+                int count=1;
+                double revenue = Math.round(invoices.get(i).getTotal()*100.0)/100.0;
+                while(j<invoices.size() && invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
+                    revenue += Math.round(invoices.get(j).getTotal()*100.0)/100.0;
                     j++;
+                    count++;
                 }
-                i=j;
+                i+=count;
                 System.out.println(timestamp+"\t"+revenue);
             }
         }
         else if(period.equals("month")){
-            for(int i = 0;i<invoices.size();i++){
-                double revenue = 0;
-                String timestamp = invoices.get(i).getTimestamp().substring(0,5);
-                int j = i;
-                if(invoices.get(j).getTimestamp().substring(0,5).equals(timestamp)){
-                    revenue += invoices.get(j).getTotal();
+            int i = 0;
+            while(i<invoices.size()){
+                String timestamp = invoices.get(i).getTimestamp().substring(3,10);
+                int j = i+1;
+                int count=1;
+                double revenue = Math.round(invoices.get(i).getTotal()*100.0)/100.0;
+                while(j<invoices.size() && invoices.get(j).getTimestamp().substring(3,10).equals(timestamp)){
+                    revenue += Math.round(invoices.get(j).getTotal()*100.0)/100.0;
                     j++;
+                    count++;
                 }
-                i=j;
+                i+=count;
                 System.out.println(timestamp+"\t"+revenue);
             }
         }

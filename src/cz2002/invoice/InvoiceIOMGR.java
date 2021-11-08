@@ -15,6 +15,12 @@ import cz2002.PromoPackage;
 import cz2002.Type;
 import invoice.Invoice;
 
+/**
+* InvoiceIOMGR reads and writes to files so that invoice data can be stored and retrieved.
+*
+* @author Tejas Rajagopal
+*/ 
+
 public class InvoiceIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for customers test 
@@ -37,15 +43,6 @@ public class InvoiceIOMGR implements BaseIOMGR {
 				// the file, using a comma as the delimiter
 				String[] tokenize = fileRead.split(",");
 
-				// assume file is made correctly
-				// and make temporary variables for the three types of data
-				//boolean tempMember = Boolean.parseBoolean(tokenize[0]);
-				//String tempName = tokenize[1];
-				//String tempContact = tokenize[2];
-
-				// create temporary instance of Inventory object
-				// and load with three data values
-				//Customer tempCust = new Customer(tempMember,tempName,tempContact);
 				String tempEmpID = tokenize[0];
 				int tempTableno = Integer.parseInt(tokenize[1]);
 				String tempTimestamp = tokenize[2];

@@ -3,6 +3,12 @@ package invoice;
 import java.util.ArrayList;
 import cz2002.MenuItem;
 
+/**
+* Invoice class that will be used for generating an invoice and sales revenue report.
+*
+* @author Tejas Rajagopal
+*/ 
+
 public class Invoice {
 	
 	private String employeeID;
@@ -31,7 +37,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param staff
+	 * @param staff the staff who took the order
 	 */
 	public void setEmployeeID(String employeeID) {
 		this.employeeID = employeeID;
@@ -43,7 +49,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param orderItems
+	 * @param orderItems the list of menu items ordered
 	 */
 	public void setOrderItems(ArrayList<MenuItem> orderItems) {
 		this.orderItems = orderItems;
@@ -55,7 +61,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param tableno
+	 * @param tableno the table number of the order
 	 */
 	public void setTableno(int tableno) {
 		this.tableno = tableno;
@@ -67,7 +73,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param timestamp
+	 * @param timestamp the date & time at which the invoices is generated
 	 */
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
@@ -79,7 +85,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param servicechrg
+	 * @param servicechrg the percentage of service charge to be applied 
 	 */
 	public void setServicechrg(double servicechrg) {
 		this.servicechrg = servicechrg;
@@ -91,7 +97,7 @@ public class Invoice {
 
 	/**
 	 * 
-	 * @param GST
+	 * @param GST the percentage of GST to be applied
 	 */
 	public void setGST(double GST) {
         this.GST = GST;
