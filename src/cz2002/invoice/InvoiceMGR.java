@@ -13,7 +13,7 @@ import table.Table;
 import java.time.LocalDateTime; 
 
 /**
-* InvoiceMGR can create generate invoices based input and print the sales revenue report either by day or month as per the user's preference.
+* InvoiceMGR can generate invoices based input and print the sales revenue report either by day or month as per the user's preference.
 *
 * @author Tejas Rajagopal
 */ 
@@ -78,9 +78,9 @@ public class InvoiceMGR {
             total = (1-DISCOUNT_RATE)*total; // Discount rate is set at 10% for members
             System.out.println("\t\tDiscount: "+(DISCOUNT_RATE*100)+"%");
         }
-        System.out.printf("\t\tGST: %.1f", GST_RATE*100);
-        System.out.print("%\n");
         System.out.printf("\t\tService Charge: %.1f", SERVICE_CHARGE*100);
+        System.out.print("%\n");
+        System.out.printf("\t\tGST: %.1f", GST_RATE*100);
         System.out.print("%\n");
         double servicechrg = SERVICE_CHARGE*total;
         total+=servicechrg;
