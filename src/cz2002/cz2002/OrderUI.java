@@ -18,7 +18,18 @@ public class OrderUI {
 	
 
 	public Scanner sc = new Scanner(System.in);
-
+	
+	/** 
+	* Class constructor.
+	* Items here will be modified through call by reference
+	* @param foodItems the Food Items from Main Application
+	* @param promoItems the Promo Items from Main Applications
+	* @param orderList List of existing orders to loop through and find matching tableno order
+	* @param staff List of the staff working currently
+	* @param reservations List of reservations made for all the tables in the restaurant
+	* @param tables List of all the tables in the restaurant
+	* @param invoices List of all the invoices paid for 
+	*/
 	public OrderUI(ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, ArrayList<Staff> staff,List<Reservation> reservations, List<Table> tables,List<Invoice> invoices)
 	{
 		for(int b=0; b<staff.size(); b++)
@@ -70,6 +81,7 @@ public class OrderUI {
 		}while(choice != -1);
 	}
 	
+	
 	public void displayUI() {
 		System.out.println("");
 		System.out.println("1. Show Order Details");
@@ -80,7 +92,10 @@ public class OrderUI {
 		
 	}
 	
-
+	/** 
+	* Method to print out the orders made and price of the orderitems from the given tableno
+	* @param orderList List of existing orders to loop through and find matching tableno order
+	*/
 	public void showOrderDetails(List<Order> orderList) 
 	{
 		int tableno;
@@ -102,6 +117,17 @@ public class OrderUI {
 		}
 	}
 	
+	
+	/** 
+	* Method to take new order and add it to orderList
+	* @param staff staff taking the order is being recorded 
+	* @param orderList List of existing orders to loop through and find matching tableno order
+	* @param foodItems the Food Items from Main Application
+	* @param promoItems the Promo Items from Main Applications
+	* @param reservations list of reservations made, can only take order when there is a reservation made for the given tableno 
+	* @param tables list of all the tables in the restaurant, to set it to occupied once an order has been made by the given tableno
+	* 
+	*/
     public void takeOrder(Staff orderstaff,List<Order> orderList, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems,List<Reservation> reservations,List<Table> tables)
     {
         int i; 
@@ -175,7 +201,15 @@ public class OrderUI {
             } 
         }while(oChoice != -1);
     }
-
+    
+    /** 
+	* Method to edit the order of the given tableno from the list of existing orders
+	* @param orderstaff staff taking the order is being recorded 
+	* @param orderList List of existing orders to loop through and find matching tableno order
+	* @param foodItems the Food Items from Main Application
+	* @param promoItems the Promo Items from Main Applications
+	* @param tables list of tables in the restaurant
+	*/
     public void editOrder(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList,List<Table> tables)
     {
         int i;
@@ -238,6 +272,13 @@ public class OrderUI {
             } 
         }while(eChoice != -1);
     }
+    
+    /** 
+   	* Method to make payment for the given tableno
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param invoices list of all the invoices for the payments made
+   	* @param tables list of tables in the restaurant
+   	*/
     public void payment(List<Order> orderList, List<Invoice> invoices, List<Table> tables){
     	if(orderList.size()==0)
     	{
@@ -276,7 +317,15 @@ public class OrderUI {
         System.out.println("To EXIT Enter -1");
     }
 
-
+    
+    /** 
+   	* Method to choose to add items from Food Menu or Promo Menu to existing order 
+   	* @param orderstaff staff taking the order is being recorded 
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param foodItems the Food Items from Main Application
+   	* @param promoItems the Promo Items from Main Applications
+   	* @param tableno tableno of the table that wants to make this amendment of order 
+   	*/
     public void addOrderItemUI(Staff orderstaff, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems, List<Order> orderList, int tableno)
     {
         FoodMenuUI.viewMenuItemsUI(foodItems,promoItems); //Print menus for user to choose items
@@ -310,7 +359,13 @@ public class OrderUI {
 
     }
 
-
+    /** 
+   	* Method to add items from the food menu and choose the quantity to add to existing order 
+   	* @param orderstaff staff taking the order is being recorded 
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param foodItems the Food Items from Main Application
+   	* @param tableno tableno of the table that wants to make this amendment of order 
+   	*/
     public void addF(Staff orderstaff, ArrayList<Food> foodItems, List<Order> orderList, int tableno) 
     {
     	List<MenuItem> orderItems = new ArrayList<MenuItem>();
@@ -336,7 +391,15 @@ public class OrderUI {
                 
         OrderMGR.addOrderItem(orderstaff, orderItems, tableno, orderList);
     }
-
+    
+    
+    /** 
+   	* Method to add items from the promo menu and choose the quantity to add to existing order 
+   	* @param orderstaff staff taking the order is being recorded 
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param promoItems the Promo Items from Main Application
+   	* @param tableno tableno of the table that wants to make this amendment of order 
+   	*/
     public void addP(Staff orderstaff,ArrayList<PromoPackage> promoItems, List<Order> orderList, int tableno) 
     {
     	List<MenuItem> orderItems = new ArrayList<MenuItem>();
@@ -363,7 +426,11 @@ public class OrderUI {
         OrderMGR.addOrderItem(orderstaff, orderItems, tableno, orderList);
     }
 
-
+    /** 
+   	* Method to remove existing order items from the order of the given tableno and index of the orderitem in the order
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param tableno tableno of the table that wants to make this amendment of order 
+   	*/
     public void removeOrderItemUI(List<Order> orderList, int tableno)
     {
     	int oIndex;
@@ -391,7 +458,13 @@ public class OrderUI {
     	
        
     }
-
+    
+    /** 
+   	* Method to cancel existing order for the given tableno 
+   	* @param orderList List of existing orders to loop through and find matching tableno order
+   	* @param tableno tableno of the table that wants to make this amendment of order 
+   	* @param tables list of tables in the restaurant
+   	*/
     public void cancelOrderUI(List<Order> orderList, int tableno,List<Table> tables)
     {
     	

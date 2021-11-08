@@ -30,7 +30,7 @@ public class Order {
 	}
 
 	/**
-	 * 
+	 * Setter method
 	 * @param staff
 	 */
 	public void setStaff(Staff staff) {
@@ -43,44 +43,56 @@ public class Order {
 	}
 
 	/**
-	 * 
-	 * @param orderItems
+	 * Setter Method
+	 * @param orderItems items ordered
 	 */
 	public void setOrderItems(ArrayList<MenuItem> orderItems) {
 		// TODO - implement Order.setOrderItems
 		this.orderItems = orderItems; 
 	}
-
+	
+	/**
+	 * GetterMethod
+	 */
 	public int getTableno() {
 		return this.tableno;
 	}
 
 	/**
-	 * 
-	 * @param tableno 
+	 * Setter Method
+	 * @param tableno tableno given
 	 */
 	public void setTableno(int tableno) {
 		this.tableno = tableno;
 	}
+	
 
+	/**
+	 * GetterMethod whether the order has been paid for
+	 */
 	public boolean getPaid() {
 		return this.paid;
 	}
 
 	/**
-	 * 
-	 * @param paid
+	 * Setter Method
+	 * @param paid set paid to true 
 	 */
 	public void setPaid(boolean paid) {
 		this.paid = true;
 	}
 
 
+	/**
+	 * Getter Method customer who made this order
+	 */
 	public Customer getCustomer() {
 		return customer;
 	}
 
-
+	/**
+	 * Setter Method customer who made this order
+	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
