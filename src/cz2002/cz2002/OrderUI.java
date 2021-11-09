@@ -287,12 +287,12 @@ public class OrderUI {
     	}
         System.out.println("Which order would you like to pay for?");
         for(int j=0;j<orderList.size();j++) {
-        	System.out.println(j+1+")"+" "+orderList.get(j).getStaff().getName()+" "+orderList.get(j).getTableno()+" "+
+        	System.out.println(j+1+")"+" Staff: "+orderList.get(j).getStaff().getName()+" | Table No: "+orderList.get(j).getTableno()+" | Customer Name: "+
         orderList.get(j).getCustomer().getName());
-        	for(int k=0;k<orderList.get(j).getOrderItems().size();k++) {
+        	/*for(int k=0;k<orderList.get(j).getOrderItems().size();k++) {
         		System.out.println(orderList.get(j).getOrderItems().get(k).getName()+" "+"Price "+
         	orderList.get(j).getOrderItems().get(k).getPrice());
-        	}
+        	}*/
         }
         int oIndex = sc.nextInt();
         if(oIndex>orderList.size() || oIndex<0)
