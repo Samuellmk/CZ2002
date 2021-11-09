@@ -79,6 +79,7 @@ public class InvoiceIOMGR implements BaseIOMGR {
 						}
 						PromoPackage tempPromoPackage = new PromoPackage(tempName, tempFoods, tempDesc, tempPrice);
 						tempOrderItems.add(tempPromoPackage);
+						i+=4*tempSizePromo;
 					}
 				}
 				// add to array list
