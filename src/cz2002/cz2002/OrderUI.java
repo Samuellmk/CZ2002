@@ -1,6 +1,7 @@
 package cz2002;
 
 import java.util.ArrayList;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,13 @@ import invoice.InvoiceMGR;
 import reservation.Reservation;
 import table.Table;
 import table.TableMGR;
+
+
+/**
+ * This is the Order UI where the staff will take order, check order, edit order, cancel order and make payments for the customer.
+ * @author JunHeng
+ *
+ */
 
 public class OrderUI {
 	
@@ -81,7 +89,9 @@ public class OrderUI {
 		}while(choice != -1);
 	}
 	
-	
+	/**
+	 * This method is for printing all the options that the staff can choose
+	 */
 	public void displayUI() {
 		System.out.println("");
 		System.out.println("1. Show Order Details");
@@ -94,6 +104,7 @@ public class OrderUI {
 	
 	/** 
 	* Method to print out the orders made and price of the orderitems from the given tableno
+	* Staff needs to enter tableno 
 	* @param orderList List of existing orders to loop through and find matching tableno order
 	*/
 	public void showOrderDetails(List<Order> orderList) 
@@ -120,7 +131,8 @@ public class OrderUI {
 	
 	/** 
 	* Method to take new order and add it to orderList
-	* @param staff staff taking the order is being recorded 
+	* Staff needs to enter tableno 
+	* @param orderstaff staff taking the order is being recorded 
 	* @param orderList List of existing orders to loop through and find matching tableno order
 	* @param foodItems the Food Items from Main Application
 	* @param promoItems the Promo Items from Main Applications
@@ -204,6 +216,7 @@ public class OrderUI {
     
     /** 
 	* Method to edit the order of the given tableno from the list of existing orders
+	* Staff needs to enter tableno
 	* @param orderstaff staff taking the order is being recorded 
 	* @param orderList List of existing orders to loop through and find matching tableno order
 	* @param foodItems the Food Items from Main Application
@@ -275,6 +288,7 @@ public class OrderUI {
     
     /** 
    	* Method to make payment for the given tableno
+   	* Staff needs to choose and enter the index of their order in the orderList to pay for
    	* @param orderList List of existing orders to loop through and find matching tableno order
    	* @param invoices list of all the invoices for the payments made
    	* @param tables list of tables in the restaurant
@@ -307,7 +321,9 @@ public class OrderUI {
     }
 
 
-
+    /**
+	 * This method is for printing all the options that the staff can choose to edit order
+	 */
     public void editOrderUI()
     {
         System.out.println("Select Choice...");
@@ -320,6 +336,7 @@ public class OrderUI {
     
     /** 
    	* Method to choose to add items from Food Menu or Promo Menu to existing order 
+   	* Staff have to enter the index of the choice of action
    	* @param orderstaff staff taking the order is being recorded 
    	* @param orderList List of existing orders to loop through and find matching tableno order
    	* @param foodItems the Food Items from Main Application
@@ -361,6 +378,7 @@ public class OrderUI {
 
     /** 
    	* Method to add items from the food menu and choose the quantity to add to existing order 
+   	* Staff have to enter 
    	* @param orderstaff staff taking the order is being recorded 
    	* @param orderList List of existing orders to loop through and find matching tableno order
    	* @param foodItems the Food Items from Main Application
@@ -395,6 +413,7 @@ public class OrderUI {
     
     /** 
    	* Method to add items from the promo menu and choose the quantity to add to existing order 
+   	* Staff have to enter the index of the menu item in the menu that the customer wants to add
    	* @param orderstaff staff taking the order is being recorded 
    	* @param orderList List of existing orders to loop through and find matching tableno order
    	* @param promoItems the Promo Items from Main Application
@@ -428,6 +447,7 @@ public class OrderUI {
 
     /** 
    	* Method to remove existing order items from the order of the given tableno and index of the orderitem in the order
+   	* Staff have to enter the index of the menu item in the menu that the customer wants to add
    	* @param orderList List of existing orders to loop through and find matching tableno order
    	* @param tableno tableno of the table that wants to make this amendment of order 
    	*/

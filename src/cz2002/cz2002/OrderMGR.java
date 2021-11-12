@@ -1,12 +1,19 @@
 package cz2002;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * This is the Order Manager class, it is responsible for handling all the function in OrderUI class
+ * @author JunHeng
+ *
+ */
+
 public class OrderMGR {
 	
 	
 	/**
 	 * Method to print order details given tableno 
-	 * @param order tableno of the order to print
+	 * @param tableno  tableno of the order to print
 	 * @param orderList List of existing orders to loop through and find matching tableno order
 	 */
 	public static void printOrder(int tableno, List<Order> orderList)
@@ -34,9 +41,10 @@ public class OrderMGR {
 	/**
 	 * Method to create new order 
 	 * @param staff that registers that table
-	 * @param orderItems MenuItems that the table has ordered 
+	 * @param orderList list of all the orders 
 	 * @param tableno that made this order
 	 * @param paid true or false
+	 * @param customer customer that made the order 
 	 */
 	public static void createOrder(Staff staff, int tableno, boolean paid, List<Order> orderList, Customer customer)
 	{
@@ -49,6 +57,7 @@ public class OrderMGR {
 	 * Method to check if an order has been paid for
 	 * @param orderList orderList List of existing orders to loop through and find matching tableno order
 	 * @param tableno tableno of table to check whether it has been paid for
+	 * @return whether the order has been paid for, true or false 
 	 */
 	public static boolean checkOrderPaid(ArrayList<Order> orderList , int tableno) {
 		int i;
@@ -93,8 +102,9 @@ public class OrderMGR {
 	/**
 	 * Method to remove items from the existing order of the given tableno
 	 * @param ordersIndex index of the orderitem in the existing order to be removed
-	 * @param tableno tableno that made this order
+	 * @param itemIndex index of the menuitem in the order chosen to be removed
 	 * @param orderList List of existing orders to loop through and find matching tableno order
+	 * @param tableno tableno of the table that want to remove order item
 	 */
 	public static void removeOrderItem(int ordersIndex, int itemIndex, List<Order> orderList,int tableno)
 	{
@@ -111,8 +121,8 @@ public class OrderMGR {
 	}
 	/**
 	 * Method to cancel the existing order of the given tableno
-	 * @param tableno tableno that made this order
 	 * @param orderList List of existing orders to loop through and find matching tableno order
+	 * @param tableno tableno that wants to cancel the order
 	 */
 	public static void cancelOrder(List<Order> orderList, int tableno)
 	{
