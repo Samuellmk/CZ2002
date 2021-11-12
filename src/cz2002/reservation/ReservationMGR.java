@@ -189,6 +189,12 @@ public class ReservationMGR {
 	 * 
 	 * @param reservationItems  the reservations ArrayList from 
 	 * 							MainApp.java
+	 * @param orders			the orders ArrayList from 
+	 * 							MainApp.java
+	 * @param invoices			the invoices ArrayList from 
+	 * 							MainApp.java
+	 * @param tables			the tables ArrayList from 
+	 * 							MainApp.java
 	 */
 	public static void checkExpiry(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -258,6 +264,20 @@ public class ReservationMGR {
 			checkAfter45Mins(reservationItems, orders, invoices, tables);
 	}
 	
+	/**
+	 * checkAfter45Mins will invokes scheduler for each reservation in
+	 * reservations Array List. It will remove the reservation that is
+	 * over 45 mins.
+	 * 
+	 * @param reservationItems  the reservations ArrayList from 
+	 * 							MainApp.java
+	 * @param orders			the orders ArrayList from 
+	 * 							MainApp.java
+	 * @param invoices			the invoices ArrayList from 
+	 * 							MainApp.java
+	 * @param tables			the tables ArrayList from 
+	 * 							MainApp.java
+	 */	
 	private static void checkAfter45Mins(List<Reservation> reservationItems, List<Order> orders, List<Invoice> invoices, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime itemDateTime;

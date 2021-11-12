@@ -14,7 +14,7 @@ import table.TableSeats;
 
 public class ReservationIOMGR implements BaseIOMGR{
 	/*
-	 * Method to read persistent data from file for customers test
+	 * Method to read persistent data from file for reservation
 	 */
 	public ArrayList<Reservation> readFromFile() {
 		ArrayList<Reservation> reservationItems = new ArrayList<>();

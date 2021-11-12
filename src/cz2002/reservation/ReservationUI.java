@@ -6,7 +6,11 @@ import java.util.Scanner;
 import cz2002.Customer;
 import table.Table;
 import table.TableSeats;
-
+/**
+* ReservationUI is to display options for user to select.
+*
+* @author Samuel Leong
+*/
 public class ReservationUI {
 
 	private Scanner sc = new Scanner(System.in);
