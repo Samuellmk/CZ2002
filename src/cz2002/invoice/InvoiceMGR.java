@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Math;
 import cz2002.Customer;
-
-
+import cz2002.Food;
 import cz2002.Order;
+import cz2002.PromoPackage;
 import table.Table;
 
 import java.time.LocalDateTime; 
@@ -68,7 +68,10 @@ public class InvoiceMGR {
             }
             if(q[j]==0)
             {
-            System.out.println(tempQuant+"\t\t"+order.getOrderItems().get(j).getName()+"\t\t"+tempQuant*order.getOrderItems().get(j).getPrice());
+                if(order.getOrderItems().get(j).getName().length()>7)
+                    System.out.println(tempQuant+"\t\t"+order.getOrderItems().get(j).getName()+"\t\t"+tempQuant*order.getOrderItems().get(j).getPrice());
+                else
+                    System.out.println(tempQuant+"\t\t"+order.getOrderItems().get(j).getName()+"\t\t\t"+tempQuant*order.getOrderItems().get(j).getPrice());
             }
             total+= order.getOrderItems().get(j).getPrice();  
         }
@@ -83,9 +86,14 @@ public class InvoiceMGR {
         System.out.printf("\t\tGST: %.1f", GST_RATE*100);
         System.out.print("%\n");
         double servicechrg = SERVICE_CHARGE*total;
+        double taxes=0;
         total+=servicechrg;
+        taxes+=servicechrg;
         double GST = GST_RATE*total;
         total+=GST;
+        taxes+=GST;
+        System.out.printf("\t\tTaxes: %.2f",taxes);
+        System.out.print(" SGD\n");
         System.out.printf("\t\tTOTAL: %.2f",total);
         System.out.print(" SGD\n");
         System.out.println("--------Thank you for dining with us!--------");
@@ -103,42 +111,81 @@ public class InvoiceMGR {
 	 * 
 	 * @param period either day or month 
 	 * @param invoices list of invoices
+     * @param timestamp timestamp of period given by user
+     * @param foodItems list of food items in the menu
+     * @param promoItems list of promo items in the menu
 	 */
-	public static void printSalesRevenueReport(String period, ArrayList<Invoice> invoices) {
-        System.out.println("Revenue Report:");
-        if(period.equals("day")){
-            int i = 0;
-            while(i<invoices.size()){
-                String timestamp = invoices.get(i).getTimestamp().substring(0,10);
-                int j = i+1;
-                int count=1;
-                double revenue = Math.round(invoices.get(i).getTotal()*100.0)/100.0;
-                while(j<invoices.size() && invoices.get(j).getTimestamp().substring(0,10).equals(timestamp)){
-                    revenue += Math.round(invoices.get(j).getTotal()*100.0)/100.0;
-                    j++;
-                    count++;
+
+    public static void printSalesRevenueReport(String period, ArrayList<Invoice> invoices, String timestamp, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems) { 
+    //timestamp can either be dd/mm/yyyy or mm/yyyy
+    System.out.println("------------------Sales Revenue Report------------------");
+    int quantFood[] = new int[foodItems.size()];
+    int quantPromo[] = new int[promoItems.size()];  
+    System.out.println("Period: "+timestamp);  
+    System.out.println();    
+    System.out.println("Food Item\tQuantity\tCurrent Price\tTotal Price");
+    double revenue = 0;
+    for(int n = 0;n<foodItems.size();n++)
+    {
+        int quant = 0;
+        String foodName = foodItems.get(n).getName();
+        for(int i = 0;i<invoices.size();i++)
+        {
+            if((period.equals("month") && invoices.get(i).getTimestamp().substring(3,10).equals(timestamp)) || (period.equals("day") && invoices.get(i).getTimestamp().substring(0,10).equals(timestamp))){
+                for(int j = 0;j<invoices.get(i).getOrderItems().size();j++)
+                {
+                    if(invoices.get(i).getOrderItems().get(j).getName().equals(foodName)){
+                        quant++;
+                    }
                 }
-                i+=count;
-                System.out.println(timestamp+"\t"+revenue);
             }
         }
-        else if(period.equals("month")){
-            int i = 0;
-            while(i<invoices.size()){
-                String timestamp = invoices.get(i).getTimestamp().substring(3,10);
-                int j = i+1;
-                int count=1;
-                double revenue = Math.round(invoices.get(i).getTotal()*100.0)/100.0;
-                while(j<invoices.size() && invoices.get(j).getTimestamp().substring(3,10).equals(timestamp)){
-                    revenue += Math.round(invoices.get(j).getTotal()*100.0)/100.0;
-                    j++;
-                    count++;
+
+        if(quant>0)
+        {
+            if(foodName.length()>7)
+                System.out.println(foodName+"\t"+quant+"\t\t"+foodItems.get(n).getPrice()+"\t\t"+(quant*foodItems.get(n).getPrice()));
+            else
+                System.out.println(foodName+"\t\t"+quant+"\t\t"+foodItems.get(n).getPrice()+"\t\t"+(quant*foodItems.get(n).getPrice()));
+        }
+    }
+    System.out.println();
+    System.out.println("Promo Item\tQuantity\tCurrent Price\tTotal Price");
+    for(int n = 0;n<promoItems.size();n++)
+    {
+        int quant = 0;
+        String promoName = promoItems.get(n).getName();
+        for(int i = 0;i<invoices.size();i++)
+        {
+            if((period.equals("month") && invoices.get(i).getTimestamp().substring(3,10).equals(timestamp)) || (period.equals("day") && invoices.get(i).getTimestamp().substring(0,10).equals(timestamp))){
+                for(int j = 0;j<invoices.get(i).getOrderItems().size();j++)
+                {
+                    if(invoices.get(i).getOrderItems().get(j).getName().equals(promoName)){
+                        quant++;
+                    }
                 }
-                i+=count;
-                System.out.println(timestamp+"\t"+revenue);
             }
         }
-	}
+
+        if(quant>0)
+        {
+            if(promoName.length()>7)
+                System.out.println(promoName+"\t"+quant+"\t\t"+promoItems.get(n).getPrice()+"\t\t"+(quant*promoItems.get(n).getPrice()));
+            else
+                System.out.println(promoName+"\t\t"+quant+"\t\t"+promoItems.get(n).getPrice()+"\t\t"+(quant*promoItems.get(n).getPrice()));
+        }
+    }
+    for(int i = 0;i<invoices.size();i++)
+        {
+            if((period.equals("month") && invoices.get(i).getTimestamp().substring(3,10).equals(timestamp)) || (period.equals("day") && invoices.get(i).getTimestamp().substring(0,10).equals(timestamp))){
+                revenue+=invoices.get(i).getTotal();
+            }
+        }
+    System.out.println();
+    System.out.printf("TOTAL REVENUE (Incl. Taxes): %.2f",revenue);
+    System.out.print(" SGD\n");
+    System.out.println("--------------------------------------------------------");
+}
 
 	public static boolean checkMember(Customer customer) {
         return customer.getMembership();
