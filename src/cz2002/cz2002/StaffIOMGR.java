@@ -8,6 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class is the Staff IO manager, it is responsible for storing and retrieving persistent data from the Staff.txt file
+ * @author xingwei1
+ *
+ */
 public class StaffIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for staff
@@ -70,7 +75,7 @@ public class StaffIOMGR implements BaseIOMGR {
 
 	/**
 	 * Method to write persistent data to file for staff
-	 * @param staff
+	 * @param staff List of Staff in the restaurant
 	 */
 	public static void writeToFile(ArrayList<Staff> staff) {
 		try

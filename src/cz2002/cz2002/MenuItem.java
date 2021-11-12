@@ -19,6 +19,7 @@ public abstract class MenuItem {
 	
 	/**
 	 * Getter method
+	 * @return This menu item name
 	 */
 	public String getName() {
 		return this.name;
@@ -33,7 +34,7 @@ public abstract class MenuItem {
 	}
 	/**
 	 * Abstract method for get price that food and promopackage needs to inherit
-	 * @return
+	 * @return This menu item price
 	 */
 	public abstract double getPrice();
 	

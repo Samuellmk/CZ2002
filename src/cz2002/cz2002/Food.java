@@ -26,9 +26,9 @@ public class Food extends MenuItem {
 		this.price = price;
 	}
 	
-	/*
+	/**
 	 *Getter method 
-	 *
+	 *@return This food item type
 	 */
 	public Type getType() {
 		return this.type;
@@ -43,7 +43,7 @@ public class Food extends MenuItem {
 	}
 	/**
 	 * Getter method
-	 * @return
+	 * @return This food item description
 	 */
 	public String getDescription() {
 		return this.description;
@@ -57,8 +57,9 @@ public class Food extends MenuItem {
 		this.description = description;
 	}
 	
-	/*
+	/**
 	 *Getter method 
+	 *@return This food item price
 	 */
 	public double getPrice() {
 		return this.price;

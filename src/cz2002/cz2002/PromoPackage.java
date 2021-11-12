@@ -43,7 +43,7 @@ public class PromoPackage extends MenuItem {
 	}
 	/**
 	 * Getter method
-	 * @return
+	 * @return This promo item description
 	 */
 	public String getDescription() {
 		return this.description;
@@ -58,7 +58,7 @@ public class PromoPackage extends MenuItem {
 	}
 	/**
 	 * Getter method
-	 * @return
+	 * @return This promo item Food Items
 	 */
 	public ArrayList<Food> getFoodItems() {
 		return this.foodItems;

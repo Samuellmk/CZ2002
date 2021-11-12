@@ -27,8 +27,9 @@ public class Staff {
 		this.jobtitle = jobtitle;
 	}
 	
-	/*
+	/**
 	 *Getter method 
+	 *@return This staff name
 	 */
 	public String getName() {
 		return this.name;
@@ -42,8 +43,9 @@ public class Staff {
 		this.name = name;
 	}
 	
-	/*
+	/**
 	 *Getter method 
+	 *@return This staff gender
 	 */
 	public String getGender() {
 		return this.gender;
@@ -57,8 +59,9 @@ public class Staff {
 		this.gender = gender;
 	}
 	
-	/*
+	/**
 	 *Getter method 
+	 *@return This staff employeeID
 	 */
 	public String getEmployeeID() {
 		return this.employeeID;
@@ -72,8 +75,9 @@ public class Staff {
 		this.employeeID = employeeID;
 	}
 	
-	/*
+	/**
 	 *Getter method 
+	 *@return This staff jobtitle
 	 */
 	public String getJobtitle() {
 		return this.jobtitle;

@@ -78,7 +78,7 @@ public class MenuMGR {
 	 * Remove the specific item in the ArrayList of food items through call by reference
 	 * @param foodItems Food items list of the restaurant
 	 * @param index Index of the item to be removed
-	 * 
+	 * @return Successful removal of item
 	 */
 	public static boolean removeFoodItem(List<Food> foodItems, int index) {
 		
@@ -90,7 +90,7 @@ public class MenuMGR {
 	 * Remove the specific item in the ArrayList of promo items through call by reference
 	 * @param promoItems Promo items list of the restaurant
 	 * @param index Index of the item to be removed
-	 * 
+	 * @return Successful removal of item
 	 */
 	public static boolean removePromoPackage(List<PromoPackage> promoItems, int index) {
 

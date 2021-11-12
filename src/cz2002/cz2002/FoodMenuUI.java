@@ -10,7 +10,9 @@ import java.util.Scanner;
  *
  */
 public class FoodMenuUI {
-
+	/**
+	 * Scanner to take in user inputs
+	 */
 	public Scanner sc=new Scanner(System.in);
 	
 	/** 

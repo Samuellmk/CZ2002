@@ -73,7 +73,7 @@ public class CustIOMGR implements BaseIOMGR{
 
 	/**
 	 * Method to write persistent data to file for customers
-	 * @param customers
+	 * @param customers Customer list of the restaurant
 	 */
 	public static void writeToFile(ArrayList<Customer> customers) {
 		try
