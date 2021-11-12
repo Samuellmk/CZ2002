@@ -2,6 +2,11 @@ package cz2002;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * This class is the Food IO manager, it is responsible for storing and retrieving persistent data from the Food.txt file
+ * @author xingwei1
+ *
+ */
 public class FoodIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for Food Items
@@ -65,7 +70,7 @@ public class FoodIOMGR implements BaseIOMGR {
 
 	/**
 	 * Method to write persistent data to file for Food Items
-	 * @param foodItems
+	 * @param foodItems This is an ArrayList of Food items in the program
 	 */
 	public static void writeToFile(ArrayList<Food> foodItems) {
 		try

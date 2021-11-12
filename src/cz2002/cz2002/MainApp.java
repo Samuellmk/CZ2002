@@ -21,6 +21,10 @@ import table.TableIOMGR;
  */
 
 public class MainApp {
+	/**
+	 * Main application for the restaurant
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		ArrayList<Food> foodItems = new ArrayList<Food>();
 		ArrayList<PromoPackage> promoItems = new ArrayList<PromoPackage>();

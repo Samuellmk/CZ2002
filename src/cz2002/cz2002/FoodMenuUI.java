@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This is the Food Menu UI where the staff will interact with to create, edit, or remove any food or promopackage items in the restaurant
+ * @author xingwei1
+ *
+ */
 public class FoodMenuUI {
 
 	public Scanner sc=new Scanner(System.in);
@@ -75,7 +80,9 @@ public class FoodMenuUI {
 		}while(choice!=-1);
 		
 	}
-	
+	/**
+	 * This method is for printing all the options that the staff can choose
+	 */
 	public void displayUI() {
 		System.out.println("\n----------------------");
 		System.out.println("Food Menu");	

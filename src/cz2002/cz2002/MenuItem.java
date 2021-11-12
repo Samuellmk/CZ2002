@@ -1,21 +1,23 @@
 package cz2002;
 
-/*
+/**
  * Super class of Food and PromoPackage
+ * @author xingwei1
+ *
  */
-
 public abstract class MenuItem {
 
 	private String name;
 	
 	/** 
 	* Class constructor.
+	* @param name initialising the name of the menu item
 	*/
 	public MenuItem(String name) {
 		this.name = name;
 	}
 	
-	/*
+	/**
 	 * Getter method
 	 */
 	public String getName() {
@@ -24,12 +26,15 @@ public abstract class MenuItem {
 
 	/**
 	 * Setter method
-	 * @param name
+	 * @param name setting the name of the menu item with a new name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	/**
+	 * Abstract method for get price that food and promopackage needs to inherit
+	 * @return
+	 */
 	public abstract double getPrice();
 	
 	

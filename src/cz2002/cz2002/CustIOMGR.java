@@ -7,7 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * This is the customer file input output manager responsible for storing persistent data for customer if necessary
+ * @author xingwei1
+ *
+ */
 public class CustIOMGR implements BaseIOMGR{
 	/*
 	 * Method to read persistent data from file for customers test 

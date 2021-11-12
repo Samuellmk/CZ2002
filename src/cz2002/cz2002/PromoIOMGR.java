@@ -7,7 +7,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * This class is the Promo IO manager, it is responsible for storing and retrieving persistent data from the Promos.txt file
+ * @author xingwei1
+ *
+ */
 public class PromoIOMGR implements BaseIOMGR{
 	
 	/*
@@ -81,7 +85,7 @@ public class PromoIOMGR implements BaseIOMGR{
 
 	/**
 	 * Method to write persistent data to file for Promo Items
-	 * @param promos
+	 * @param promos Promo items list of the restaurant
 	 */
 	public static void writeToFile(ArrayList<PromoPackage> promos) {
 		try
