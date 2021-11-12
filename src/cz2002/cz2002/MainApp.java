@@ -1,6 +1,7 @@
 package cz2002;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,10 +22,6 @@ import table.TableIOMGR;
  */
 
 public class MainApp {
-	/**
-	 * Main application for the restaurant
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		ArrayList<Food> foodItems = new ArrayList<Food>();
 		ArrayList<PromoPackage> promoItems = new ArrayList<PromoPackage>();
@@ -84,11 +81,39 @@ public class MainApp {
 				System.out.println("1. Monthly");
 				System.out.println("2. Daily");
 				int revenueChoice = sc.nextInt();
+				String dummy = sc.nextLine();
 				if(revenueChoice==1){
-					InvoiceMGR.printSalesRevenueReport("month",invoices);
+					try{
+						System.out.println("Enter period in mm/yyyy format:");
+						String timestamp = sc.nextLine();
+						int len = timestamp.length();
+						int m = Integer.parseInt(timestamp.substring(0,2));
+						int y = Integer.parseInt(timestamp.substring(3,7));
+						if(len==7 && m>=1 && m<=12 && y>=2000 && y<=3000)
+							InvoiceMGR.printSalesRevenueReport("month",invoices,timestamp,foodItems,promoItems);
+						else
+							System.out.println("Invalid Date");
+					}
+					catch(NumberFormatException e){
+						System.out.println("Invalid Input");
+					}
 				}
 				else if(revenueChoice==2){
-					InvoiceMGR.printSalesRevenueReport("day",invoices);
+					try{
+						System.out.println("Enter period in dd/mm/yyyy format:");
+						String timestamp = sc.nextLine();
+						int len = timestamp.length();
+						int d = Integer.parseInt(timestamp.substring(0,2));
+						int m = Integer.parseInt(timestamp.substring(3,5));
+						int y = Integer.parseInt(timestamp.substring(6,10));
+						if(len==10 && d>=1 && d<=31 && m>=1 && m<=12 && y>=2000 && y<=3000)
+							InvoiceMGR.printSalesRevenueReport("day",invoices,timestamp,foodItems,promoItems);
+						else
+							System.out.println("Invalid Date");
+					}
+					catch(NumberFormatException e){
+						System.out.println("Invalid Input");
+					}
 				}
 				else{
 					System.out.println("Invalid Choice");
