@@ -10,32 +10,6 @@ import java.util.List;
  * @author Samuel Leong
  */
 public class TableMGR {
-
-	/**
-	 * This will add new table to the Table List.
-	 * 
-	 * @param tableNo	the table number assigned to the table
-	 * @param capacity	the table capacity assigned to the table
-	 * @param reserved  the table occupancy assigned to the table
-	 * @param tables	the Table List from MainApp.java
-	 */
-	public static void addTable(int tableNo, TableSeats capacity, boolean occupied, List<Table> tables) {
-		Table newTable = new Table(tableNo, capacity, occupied);
-		tables.add(newTable);
-	}
-	
-	/**
-	 * This will remove new table to the Table List.
-	 * 
-	 * @param tableNo	the table number assigned to the table
-	 * @param tables	the Table List from MainApp.java
-	 */
-	public static void removeTable(int tableNo, List<Table> tables) {
-		for(int i=0; i<tables.size(); i++) {
-			if(tableNo == tables.get(i).getTableNo())
-				tables.remove(i);
-		}
-	}
 	
 	/**
 	 * This will check the table availability in regards to 

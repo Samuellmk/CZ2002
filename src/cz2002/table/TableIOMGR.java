@@ -12,7 +12,7 @@ import cz2002.BaseIOMGR;
 
 public class TableIOMGR implements BaseIOMGR {
 	/*
-	 * Method to read persistent data from file for customers test
+	 * Method to read persistent data from file for tables
 	 */
 	public ArrayList<Table> readFromFile() {
 		ArrayList<Table> tableItems = new ArrayList<>();
