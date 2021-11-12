@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import cz2002.Customer;
 import table.Table;
+import table.TableMGR;
 import table.TableSeats;
 /**
 * ReservationUI is to display options for user to select.
@@ -36,6 +37,9 @@ public class ReservationUI {
 				case 2:
 					removeReservationUI(reservation);
 					break;
+				case 3:
+					checkTableAvailUI(reservation, table);
+					break;
 				case -1:
 					System.out.println("Exiting Reservation Menu UI...");
 					break;
@@ -55,8 +59,12 @@ public class ReservationUI {
 		String contact = "";
 		boolean validPhone= false;
 		while(!validPhone) {
-			System.out.print("Enter customer contact: ");
+			System.out.print("Enter customer contact or -1 to exit: ");
 			contact = sc.next();
+			if(contact.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
 			validPhone= ReservationMGR.checkValidPhone(contact);
 		}
 		
@@ -175,6 +183,43 @@ public class ReservationUI {
 				" for " + pax.label + " pax at " + dateTime);
 	}
 
+	/**
+	 * Items here will be modified through call by reference.
+	 * This is to check tables that are available.
+	 * 
+	 * @param reservations
+	 * @param tables
+	 */
+	private void checkTableAvailUI(List<Reservation> reservations, List<Table> tables) {
+		boolean validDate = false;
+		String time = "";
+		String date = "";
+		while(!validDate) {
+			System.out.print("\nEnter the date (dd/MM/yyyy) or -1 to exit: ");
+			date = sc.next();
+			if(date.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
+			validDate = ReservationMGR.checkValidDate(date);
+		}
+		
+		boolean validTime = false;
+		while(!validTime) {
+			System.out.print("\nEnter the Time (HH:mm) or -1 to exit: ");
+			time = sc.next();
+			
+			if(time.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
+			validTime = ReservationMGR.checkValidTime(time);
+			
+		}
+		String dateTime = date + " " + time;
+		
+		TableMGR.printTableAvail(dateTime, tables, reservations);
+	}
 	
 	
 	/**
@@ -186,6 +231,7 @@ public class ReservationUI {
 		System.out.println("----------------------");
 		System.out.println("1. Create Reservation");
 		System.out.println("2. Remove Reservation");
+		System.out.println("3. Check Table Availability");
 		System.out.println("----------------------");
 		System.out.println("Enter -1, to return to Main Menu");
 		

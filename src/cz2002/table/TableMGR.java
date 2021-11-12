@@ -1,7 +1,11 @@
 package table;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import reservation.Reservation;
 
 /**
  * TableMGR can add or remove table from the Table List.
@@ -18,7 +22,8 @@ public class TableMGR {
 	 * @param pax			the pax input
 	 * @param tables		the Table List from Mainapp.java
 	 * @param tableNoTaken	the Table Taken from ReservationMGR.java
-	 * @return Integer		the table No that is either available
+	 * @return Integer		the table No that is either available or
+	 * 						not
 	 */
 	public static int checkTableAvail(TableSeats pax, List<Table> tables, List<Integer> tableNoTaken) {
 		if(tables.size() == 0)
@@ -29,6 +34,47 @@ public class TableMGR {
 				return table.getTableNo();
 		}
 		return -1;
+	}
+	
+	/**
+	 * Printing all available tables with respect to date and time
+	 * 
+	 * @param dateTime
+	 * @param tables
+	 * @param reservations
+	 */
+	
+	public static void printTableAvail(String dateTime, List<Table> tables, List<Reservation> reservations) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime dateTimeInput = LocalDateTime.parse(dateTime, formatter);
+		LocalDateTime itemDateTime;
+		
+		ArrayList<Table> tablesTaken = new ArrayList<>();
+		
+		// 1300+45 is after 1200
+		// 1245 is after 1300
+		for(Reservation item : reservations) {
+			itemDateTime = LocalDateTime.parse(item.getDateTime(), formatter);
+			for(Table table: tables) {
+				if(table.getTableNo() == item.getTableNo() && 
+						   itemDateTime.plusMinutes(45).isAfter(dateTimeInput)
+						&& dateTimeInput.plusMinutes(45).isAfter(itemDateTime))
+					tablesTaken.add(table);
+			}
+		}
+		
+		List<Table> tempTable = new ArrayList<>(tables);
+		tempTable.removeAll(tablesTaken);
+		
+		if(tempTable.size() == 0) {
+			System.out.println("No tables Available at this date and time...");
+			return;
+		}
+		
+		for(Table table: tempTable)
+			System.out.println("Table " + table.getTableNo() + " for " 
+				+ table.getCapacity().label + " pax");
+		
 	}
 	
 	/**
@@ -45,4 +91,5 @@ public class TableMGR {
             }
 		}
 	}
+
 }

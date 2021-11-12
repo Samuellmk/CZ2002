@@ -3,10 +3,9 @@ package reservation;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -73,7 +72,7 @@ public class ReservationMGR {
 		ArrayList<Integer> tableNoTaken = new ArrayList<Integer>();
 		for(Reservation item: reservationItems) {
 			LocalDateTime bookedTimeDate = LocalDateTime.parse(item.getDateTime(), formatter);
-			if(inputDateTime.plusMinutes(45).isAfter(bookedTimeDate) || 
+			if(inputDateTime.plusMinutes(45).isAfter(bookedTimeDate) && 
 			   bookedTimeDate.plusMinutes(45).isAfter(inputDateTime)) {
 				tableNoTaken.add(item.getTableNo());
 				//System.out.println(item.getTableNo());
@@ -148,7 +147,7 @@ public class ReservationMGR {
 	 */
 	public static boolean checkValidTime(String time) {
 		try {
-			LocalTime bookingTime= LocalTime.parse(time);
+			LocalTime.parse(time);
 			/*
 			if(bookingTime.isAfter(LocalTime.parse("18:29")) &&
 			   bookingTime.isBefore(LocalTime.parse("20:46")))
@@ -282,7 +281,6 @@ public class ReservationMGR {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime itemDateTime;
     	LocalDateTime dateTimeNow = LocalDateTime.now(); 
-		ArrayList<String> deletionArrayList = new ArrayList<>();
 		
 		//
 		// Table No has Order
