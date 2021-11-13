@@ -85,8 +85,8 @@ public class ReservationUI {
 	 * Items here will be modified through call by reference.
 	 * This is the create reservation UI.
 	 * 
-	 * @param reservation the reservation from Main Application
-	 * @param tables the table from Main Application
+	 * @param reservation 	the reservation from Main Application
+	 * @param table 		the table from Main Application
 	 */ 
 	public void createReservationUI(List<Reservation> reservation, List<Table> table) {
 		String time = "";

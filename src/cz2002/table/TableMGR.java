@@ -39,9 +39,9 @@ public class TableMGR {
 	/**
 	 * Printing all available tables with respect to date and time
 	 * 
-	 * @param dateTime
-	 * @param tables
-	 * @param reservations
+	 * @param dateTime		the date and time inputted
+	 * @param tables		the Table List from Mainapp.java
+	 * @param reservations	the Reservation List from Mainapp.java
 	 */
 	
 	public static void printTableAvail(String dateTime, List<Table> tables, List<Reservation> reservations) {

@@ -36,7 +36,7 @@ public class ReservationMGR {
 	 * createReservation will takes inputs and create a reservation object
 	 * and add it to the reservationItems List.
 	 * 
-	 * @param dateTime 			the date & time of the reservation
+	 * @param dateTime 			the date and time of the reservation
 	 * @param pax				the pax of the reservation
 	 * @param name				the name of the customer that belongs to 
 	 * 							the reservation
@@ -63,7 +63,7 @@ public class ReservationMGR {
 	 * @param reservationItems  the resevation List that is passed by 
 	 * 							reference
 	 * @param tables			the tables List that is passed by reference
-	 * @return
+	 * @return integer			the table number
 	 */
 	public static int checkReservation(TableSeats pax, String dateTime, List<Reservation> reservationItems, List<Table> tables) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -91,9 +91,9 @@ public class ReservationMGR {
 	/**
 	 * Print Reservation Info based on contact number.
 	 * 
-	 * @param contact
-	 * @param reservations
-	 * @param tables
+	 * @param contact			the contact of the customer
+	 * @param reservationItems	the List that is passed by reference
+	 * @param tables			the List that is passed by reference
 	 */
 	public static void printReservationInfo(String contact, List<Reservation> reservations, List<Table> tables) {
 		for(Reservation item : reservations) {

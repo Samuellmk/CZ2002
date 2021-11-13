@@ -11,7 +11,11 @@ import java.util.ArrayList;
 import cz2002.BaseIOMGR;
 import cz2002.Customer;
 import table.TableSeats;
-
+/**
+ * This class is the Reservation IO manager, it is responsible for storing and retrieving persistent data from the Reservation.txt file
+ * @author Samuel Leong
+ *
+ */
 public class ReservationIOMGR implements BaseIOMGR{
 	/*
 	 * Method to read persistent data from file for reservation
@@ -76,8 +80,8 @@ public class ReservationIOMGR implements BaseIOMGR{
 	}
 
 	/**
-	 * Method to write persistent data to file for customers
-	 * @param customers
+	 * Method to write persistent data to file for reservation
+	 * @param reservationItem 	Reservation items list of the restaurant
 	 */
 	public static void writeToFile(ArrayList<Reservation> reservationItem) {
 		try

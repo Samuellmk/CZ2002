@@ -7,12 +7,34 @@ package table;
  * @author Samuel Leong
  */
 public enum TableSeats {
+	/**
+	 * 	Table for 2 pax
+	 */
 	TWO(2),
+	
+	/**
+	 * 	Table for 4 pax
+	 */
 	FOUR(4),
+	
+	/**
+	 * 	Table for 6 pax
+	 */
 	SIX(6),
+	
+	/**
+	 * 	Table for 8 pax
+	 */
 	EIGHT(8),
+	
+	/**
+	 * 	Table for 10 pax
+	 */
 	TEN(10);
 	
+	/**
+	 * 	Label is the actual value
+	 */
 	public final int label;
 	
 	/**

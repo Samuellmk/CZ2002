@@ -70,8 +70,8 @@ public class TableIOMGR implements BaseIOMGR {
 	}
 
 	/**
-	 * Method to write persistent data to file for customers
-	 * @param customers
+	 * Method to write persistent data to file for Tables
+	 * @param tableItem 	Table items list of the restaurant
 	 */
 	public static void writeToFile(ArrayList<Table> tableItem) {
 		try

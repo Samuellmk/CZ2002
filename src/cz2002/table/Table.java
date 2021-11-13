@@ -70,7 +70,7 @@ public class Table {
 	/**
 	 * Setting occupancy of the table.
 	 *  
-	 * @param ocupied the occupancy of the table
+	 * @param occupied the occupancy of the table
 	 */
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
