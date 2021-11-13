@@ -12,7 +12,7 @@ import cz2002.BaseIOMGR;
 import cz2002.Customer;
 import table.TableSeats;
 /**
- * This class is the Reservation IO manager, it is responsible for storing and retrieving persistent data from the Reservation.txt file
+ * This class is the Reservation IO manager, it is responsible for storing and retrieving persistent data from the Reservation.txt file.
  * @author Samuel Leong
  *
  */
