@@ -240,7 +240,7 @@ public class ReservationUI {
 					if(ltDate.isAfter(LocalDate.now().minusDays(1)))
 						validDate =  true;
 					else {
-						System.out.println("Invalid date, try again...");
+						System.out.println("Invalid date");
 						validDate = false;
 					}
 				}catch(Exception e) {
