@@ -88,7 +88,24 @@ public class ReservationMGR {
 			return tableNo;
 		
 	}
-
+	/**
+	 * Print Reservation Info based on contact number.
+	 * 
+	 * @param contact
+	 * @param reservations
+	 * @param tables
+	 */
+	public static void printReservationInfo(String contact, List<Reservation> reservations, List<Table> tables) {
+		for(Reservation item : reservations) {
+			Customer customer = item.getCustomer();
+			if(item.getCustomer().getContact().equals(contact)) {
+				System.out.println(customer.getName() + " booked on " + item.getDateTime() + " for "
+					+ item.getPax().label + " pax" + " (Table No.: " + item.getTableNo() + ")");
+				return;
+			}
+		}
+		System.out.println("Nothing found...");
+	}
 	
 	/**
 	 * removeReservation removes reservation based on the inputs.

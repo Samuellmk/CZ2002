@@ -29,24 +29,32 @@ public class ReservationUI {
 		while(choice != -1) {
 			displayReservationUI();
 			System.out.print("Choose an option: ");
-			choice = sc.nextInt();
-			switch(choice) {
-				case 1:
-					createReservationUI(reservation, table);
-					break;
-				case 2:
-					removeReservationUI(reservation);
-					break;
-				case 3:
-					checkTableAvailUI(reservation, table);
-					break;
-				case -1:
-					System.out.println("Exiting Reservation Menu UI...");
-					break;
-				default:
-					System.out.println("That is not a valid choice!");
-					break;
-			}
+			try {
+				choice = sc.nextInt();
+				switch(choice) {
+					case 1:
+						createReservationUI(reservation, table);
+						break;
+					case 2:
+						removeReservationUI(reservation);
+						break;
+					case 3:
+						printReservationUI(reservation, table);
+						break;
+					case 4:
+						checkTableAvailUI(reservation, table);
+						break;
+					case -1:
+						System.out.println("Exiting Reservation Menu UI...");
+						break;
+					default:
+						System.out.println("That is not a valid choice!");
+						break;
+				}
+			} catch (Exception e) {
+	            System.out.println("That is not a valid choice!");
+	            sc.next();// Move to next other wise exception
+	        }
 		}
 	}
 	/**
@@ -134,13 +142,13 @@ public class ReservationUI {
 		
 		System.out.print("\nEnter customer name or -1 to exit: ");
 		String name = sc.next();
-		if(name.equals("-1")) {
-			System.out.println("Exiting...");
-			return;
-		}
 		while(name.matches(".*\\d.*")) {
+			if(name.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
 			System.out.println("Invalid name entry...");
-			System.out.print("Enter customer name: ");
+			System.out.print("Enter customer name or -1 to exit: ");
 			name = sc.next();
 		}
 			
@@ -180,9 +188,31 @@ public class ReservationUI {
 		
 		ReservationMGR.createReservation(dateTime, pax, name, contact, tableNo, membership, reservation);
 		System.out.println("Reservation made under the name of " + name + 
-				" for " + pax.label + " pax at " + dateTime);
+				" for " + pax.label + " pax at " + dateTime + 
+				" (Table No.: " + tableNo + ")");
 	}
-
+	/**
+	 * Items here will be modified through call by reference.
+	 * Print reservation info based on contact number input.
+	 * 
+	 * @param reservations
+	 * @param tables
+	 */
+	private void printReservationUI(List<Reservation> reservations, List<Table> tables) {
+		String contact = "";
+		boolean validPhone= false;
+		while(!validPhone) {
+			System.out.print("\nEnter customer contact or -1 to exit: ");
+			contact = sc.next();
+			if(contact.equals("-1")) {
+				System.out.println("Exiting...");
+				return;
+			}
+			validPhone = ReservationMGR.checkValidPhone(contact);
+		}
+		ReservationMGR.printReservationInfo(contact, reservations, tables);
+	}
+	
 	/**
 	 * Items here will be modified through call by reference.
 	 * This is to check tables that are available.
@@ -231,7 +261,8 @@ public class ReservationUI {
 		System.out.println("----------------------");
 		System.out.println("1. Create Reservation");
 		System.out.println("2. Remove Reservation");
-		System.out.println("3. Check Table Availability");
+		System.out.println("3. Check Reservation");
+		System.out.println("4. Check Table Availability");
 		System.out.println("----------------------");
 		System.out.println("Enter -1, to return to Main Menu");
 		

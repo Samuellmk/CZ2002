@@ -51,8 +51,10 @@ public class TableMGR {
 		
 		ArrayList<Table> tablesTaken = new ArrayList<>();
 		
-		// 1300+45 is after 1200
-		// 1245 is after 1300
+		// itemDateTime = 1300
+		// dateTimeInput = 1345
+		// 1300+45 is after 1345
+		// 1345+45 is after 1345
 		for(Reservation item : reservations) {
 			itemDateTime = LocalDateTime.parse(item.getDateTime(), formatter);
 			for(Table table: tables) {
