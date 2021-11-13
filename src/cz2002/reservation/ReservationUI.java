@@ -1,5 +1,7 @@
 package reservation;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -231,7 +233,21 @@ public class ReservationUI {
 				System.out.println("Exiting...");
 				return;
 			}
-			validDate = ReservationMGR.checkValidDate(date);
+			else {
+				try {
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					LocalDate ltDate = LocalDate.parse(date, formatter);
+					if(ltDate.isAfter(LocalDate.now().minusDays(1)))
+						validDate =  true;
+					else {
+						System.out.println("Invalid date");
+						validDate = false;
+					}
+				}catch(Exception e) {
+					System.out.println(date+" is not a valid date");
+					validDate = false;
+				}
+			}
 		}
 		
 		boolean validTime = false;
