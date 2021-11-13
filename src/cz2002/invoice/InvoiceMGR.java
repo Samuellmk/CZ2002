@@ -13,7 +13,8 @@ import table.Table;
 import java.time.LocalDateTime; 
 
 /**
-* InvoiceMGR can generate invoices based input and print the sales revenue report either by day or month as per the user's preference.
+* InvoiceMGR can generate invoices based input and print the sales 
+* revenue report either by day or month as per the user's preference.
 *
 * @author Tejas Rajagopal
 */ 
@@ -26,15 +27,20 @@ public class InvoiceMGR {
 	 * @param orderItem the items that were ordered by the customer
 	 * @param tableno the table where the order was taken
 	 * @param timestamp the time at which the invoice is generated
-	 * @param servicechrg the percentage of service charge to be applied to the subtotal
-	 * @param GST the percentage of GST to be applied to the subtotal
+	 * @param servicechrg the amount of service charge 
+	 * @param GST the amount of GST 
+     * @param DISCOUNT_RATE the discount rate if the customer is a member
+     * @param GST_RATE the rate of GST
+     * @param SERVICE_CHARGE the rate of service charge
 	 */
     public static final double DISCOUNT_RATE = 0.10; //Assuming that members get a 10% discount
     public static final double GST_RATE = 0.07;
     public static final double SERVICE_CHARGE = 0.10;
 
 	/**
-	 * 
+	 * createInvoice generates an invoice based on the order and adds 
+     * it to the list of invoices after printing the invoice.
+     * 
 	 * @param order the order for which the invoices is generated
 	 * @param invoices the list of invoices
 	 * @param discount the discount percentage to be applied if the customer is a member
@@ -108,7 +114,10 @@ public class InvoiceMGR {
 	}
 
 	/**
-	 * 
+	 * printSalesRevenueReport iterates through the invoices and 
+     * calculates the total revenue for each menu item and finds the
+     * total revenue (including taxes) for the given period.  
+     * 
 	 * @param period either day or month 
 	 * @param invoices list of invoices
      * @param timestamp timestamp of period given by user
@@ -118,9 +127,7 @@ public class InvoiceMGR {
 
     public static void printSalesRevenueReport(String period, ArrayList<Invoice> invoices, String timestamp, ArrayList<Food> foodItems, ArrayList<PromoPackage> promoItems) { 
     //timestamp can either be dd/mm/yyyy or mm/yyyy
-    System.out.println("------------------Sales Revenue Report------------------");
-    int quantFood[] = new int[foodItems.size()];
-    int quantPromo[] = new int[promoItems.size()];  
+    System.out.println("------------------Sales Revenue Report------------------"); 
     System.out.println("Period: "+timestamp);  
     System.out.println();    
     System.out.println("Food Item\tQuantity\tCurrent Price\tTotal Price");
