@@ -24,7 +24,9 @@ import table.TableMGR;
 
 public class OrderUI {
 	
-
+	/**
+	 * Scanner for user input
+	 */
 	public Scanner sc = new Scanner(System.in);
 	
 	/** 
