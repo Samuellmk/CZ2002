@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 import cz2002.BaseIOMGR;
 
+/**
+ * This class is the Table IO manager, it is responsible for storing and retrieving persistent data from the Table.txt file
+ * @author Samuel Leong
+ *
+ */
 public class TableIOMGR implements BaseIOMGR {
 	/*
 	 * Method to read persistent data from file for tables
