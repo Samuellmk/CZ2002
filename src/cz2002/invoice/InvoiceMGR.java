@@ -22,14 +22,22 @@ import java.time.LocalDateTime;
 public class InvoiceMGR {
 
 	/**
-     * 
-	 * @param DISCOUNT_RATE the discount rate to applied if the customer is a member
-	 * @param GST_RATE the GST rate to be applied to the subtotal
-	 * @param SERVICE_CHARGE the service charge rate to be applied to the sub total
+	 * DISCOUNT_RATE the discount rate to applied if the customer is a member
 	 */
 
     public static final double DISCOUNT_RATE = 0.10; //Assuming that members get a 10% discount
+
+    /**
+	 * GST_RATE the GST rate to be applied to the subtotal
+	 */
+
     public static final double GST_RATE = 0.07;
+
+    /**
+     * 
+	 * SERVICE_CHARGE the service charge rate to be applied to the sub total
+	 */
+
     public static final double SERVICE_CHARGE = 0.10;
 
 	/**

@@ -23,7 +23,7 @@ public class Invoice {
 	/**
 	 * 
 	 * @param employeeID the employee ID of the staff 
-	 * @param orderItem the items that were ordered by the customer
+	 * @param orderItems the items that were ordered by the customer
 	 * @param tableno the table where the order was taken
 	 * @param timestamp the time at which the invoice is generated
 	 * @param servicechrg the amount of service charge 
@@ -31,7 +31,7 @@ public class Invoice {
 	 * @param discount true if the customer is a member and false if the customer is not a member
 	 * @param total the total amount of the order
 	 */
-	
+
     public Invoice(String employeeID, ArrayList<MenuItem> orderItems, int tableno, String timestamp, double servicechrg, double GST, boolean discount, double total){
         this.employeeID = employeeID;
         this.orderItems = orderItems;
