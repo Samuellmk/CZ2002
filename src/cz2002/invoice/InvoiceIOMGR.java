@@ -23,7 +23,7 @@ import invoice.Invoice;
 
 public class InvoiceIOMGR implements BaseIOMGR {
 	/*
-	 * Method to read persistent data from file for customers test 
+	 * Method to read persistent data from file for invoices 
 	 */
 	public ArrayList<Invoice> readFromFile() {
 		ArrayList<Invoice> invoices = new ArrayList<>();
@@ -112,8 +112,8 @@ public class InvoiceIOMGR implements BaseIOMGR {
 
 	/**
 	 * Method to write persistent data to file for customers
-	 * @param customers
-	 */
+	 * @param invoices the list of invoice objects
+	 **/
 	public static void writeToFile(ArrayList<Invoice> invoices) {
 		try
 		{
