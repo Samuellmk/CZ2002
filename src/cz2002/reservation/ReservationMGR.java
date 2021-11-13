@@ -59,7 +59,7 @@ public class ReservationMGR {
 	 * no slot on given date and time.
 	 * 
 	 * @param pax				the pax of the reservation
-	 * @param dateTime			the date & time of the reservation
+	 * @param dateTime			the date and time of the reservation
 	 * @param reservationItems  the resevation List that is passed by 
 	 * 							reference
 	 * @param tables			the tables List that is passed by reference
@@ -92,7 +92,7 @@ public class ReservationMGR {
 	 * Print Reservation Info based on contact number.
 	 * 
 	 * @param contact			the contact of the customer
-	 * @param reservationItems	the List that is passed by reference
+	 * @param reservations		the List that is passed by reference
 	 * @param tables			the List that is passed by reference
 	 */
 	public static void printReservationInfo(String contact, List<Reservation> reservations, List<Table> tables) {
