@@ -22,17 +22,12 @@ import java.time.LocalDateTime;
 public class InvoiceMGR {
 
 	/**
-	 * 
-	 * @param staff  the staff taking the order
-	 * @param orderItem the items that were ordered by the customer
-	 * @param tableno the table where the order was taken
-	 * @param timestamp the time at which the invoice is generated
-	 * @param servicechrg the amount of service charge 
-	 * @param GST the amount of GST 
-     * @param DISCOUNT_RATE the discount rate if the customer is a member
-     * @param GST_RATE the rate of GST
-     * @param SERVICE_CHARGE the rate of service charge
+     * 
+	 * @param DISCOUNT_RATE the discount rate to applied if the customer is a member
+	 * @param GST_RATE the GST rate to be applied to the subtotal
+	 * @param SERVICE_CHARGE the service charge rate to be applied to the sub total
 	 */
+
     public static final double DISCOUNT_RATE = 0.10; //Assuming that members get a 10% discount
     public static final double GST_RATE = 0.07;
     public static final double SERVICE_CHARGE = 0.10;
@@ -43,7 +38,8 @@ public class InvoiceMGR {
      * 
 	 * @param order the order for which the invoices is generated
 	 * @param invoices the list of invoices
-	 * @param discount the discount percentage to be applied if the customer is a member
+	 * @param tables the list of tables so that the table number of 
+     * the invoice can be set to not occupied after generating the invoice
 	 */
 
      //creating an invoice from order
@@ -194,6 +190,12 @@ public class InvoiceMGR {
     System.out.println("--------------------------------------------------------");
 }
 
+	/**
+     * Returns true or false depending on whether the customer is a member
+     * 
+     * @param customer the customer of the order
+     * @return true if the customer is a member and false if the customer is not a member
+	 */
 	public static boolean checkMember(Customer customer) {
         return customer.getMembership();
 	}
